@@ -1,0 +1,99 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ServiceVisual from '@/components/ServiceVisual.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import { services } from '@/data/services';
+import { site } from '@/data/site';
+
+const addons = [
+  { hi: 'गूगल पर टॉप', title: 'Monthly SEO', text: 'Keyword research, blog content, technical fixes and a simple monthly ranking report.' },
+  { hi: 'गूगल मैप्स', title: 'Google Business Profile', text: 'Set up and optimise your profile so nearby customers find you on Google Maps.' },
+  { hi: 'सोशल मीडिया', title: 'Social media kit', text: 'Post, story and reel-cover templates in your brand style — ready for Canva.' },
+  { hi: 'देखभाल', title: 'Website care plan', text: 'Updates, backups, security checks and small content changes every month.' },
+];
+
+const listSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'AI Mazdoor services',
+  itemListElement: services.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `${site.url}/services/${s.slug}`,
+    name: s.label,
+  })),
+};
+---
+
+<BaseLayout
+  title="Services — Logo, Website Design & AI Automation | AI Mazdoor"
+  description="Explore AI Mazdoor services: logo design & brand identity, custom website design & development, and AI automation with WhatsApp chatbots for Indian businesses."
+  schema={[listSchema]}
+>
+  <PageHero
+    label="Our services · हमारी सेवाएँ"
+    hi="एक टीम, तीन ताक़तें।"
+    title="Logo design, website design and AI automation — under one roof."
+    text="Most businesses juggle a freelancer for the logo, an agency for the website and nobody for automation. We bring all three together, so your brand, website and AI bots work as one system."
+    crumbs={[{ label: 'Services' }]}
+  />
+
+  <section class="pb-20 sm:pb-28" aria-label="Services">
+    <div class="container-x space-y-6">
+      {
+        services.map((s, i) => (
+          <article
+            class:list={['group grid items-center gap-8 overflow-hidden rounded-[2rem] border-2 border-ink p-7 sm:p-10 lg:grid-cols-2 lg:gap-14', i === 1 ? 'bg-ink text-white' : 'bg-white']}
+            data-reveal
+          >
+            <div class:list={[i === 1 && 'lg:order-2']}>
+              <p class="flex items-center gap-3">
+                <span class="font-mono text-sm font-bold text-orange">0{i + 1}</span>
+                <span class:list={['hi text-sm font-bold', i === 1 ? 'text-muted-dark' : 'text-muted']} lang="hi">{s.nameHi}</span>
+              </p>
+              <h2 class="mt-4 text-[clamp(2rem,1.5rem+2vw,3.2rem)] leading-[1.05] font-extrabold">{s.label}</h2>
+              <p class:list={['display-hi mt-3 text-[1.6rem]', i === 1 ? 'text-orange' : 'text-orange-deep']} lang="hi">{s.displayHi}</p>
+              <p class:list={['mt-4 text-lg leading-relaxed', i === 1 ? 'text-muted-dark' : 'text-muted']}>{s.short}</p>
+              <ul class="mt-6 grid gap-2.5 sm:grid-cols-2">
+                {s.deliverables.map((d) => (
+                  <li class="flex gap-2.5 text-[0.95rem] font-medium">
+                    <span class="font-black text-orange" aria-hidden="true">✓</span>{d.title}
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-8 flex flex-wrap items-center gap-4">
+                <a href={`/services/${s.slug}`} class:list={['btn', i === 1 ? 'btn-primary shadow-none! hover:shadow-[4px_4px_0_var(--color-orange-soft)]!' : 'btn-dark']}>
+                  Explore {s.name} <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+            <div class:list={['rounded-[1.5rem] border-2 p-5', i === 1 ? 'border-white/15 bg-ink-2' : 'border-ink bg-orange-tint']}>
+              <ServiceVisual kind={s.slug} dark={i === 1} />
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="bg-orange-tint py-20 sm:py-28" aria-labelledby="addons-title">
+    <div class="container-x">
+      <SectionHeading id="addons-title" num="+" label="Add-ons · और भी" hi="छोटे काम, बड़ा असर।" title="Add-on services to keep you growing" />
+      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          addons.map((a, i) => (
+            <article class="rounded-[1.5rem] border-2 border-ink bg-white p-6 transition-all duration-500 ease-(--ease-out-expo) hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--color-ink)]" data-reveal style={`--d:${i}`}>
+              <p class="hi text-sm font-bold text-orange-deep" lang="hi">{a.hi}</p>
+              <h3 class="mt-2 text-xl font-extrabold">{a.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted">{a.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>

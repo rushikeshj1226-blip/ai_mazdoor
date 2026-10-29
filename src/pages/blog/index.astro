@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import PostCard from '@/components/PostCard.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import { getPosts } from '@/utils/blog';
+import { site } from '@/data/site';
+
+const posts = await getPosts();
+const [featured, ...rest] = posts;
+
+const blogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: `${site.name} Blog`,
+  url: `${site.url}/blog`,
+  inLanguage: 'en-IN',
+  publisher: { '@id': `${site.url}/#organization` },
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    url: `${site.url}/blog/${p.id}`,
+    datePublished: p.data.pubDate.toISOString(),
+  })),
+};
+---
+
+<BaseLayout
+  title="Blog — Logo, Website & AI Tips for Indian Businesses"
+  description="Practical guides on logo design, website design costs, SEO and AI automation for Indian small businesses — written in simple English with a Hindi touch."
+  schema={[blogSchema]}
+>
+  <PageHero
+    label="Blog · सीखिए"
+    hi="सीधी बात, काम की बात।"
+    title="Practical guides on branding, websites and AI — no jargon."
+    crumbs={[{ label: 'Blog' }]}
+  />
+
+  <section class="pb-20 sm:pb-28" aria-label="Articles">
+    <div class="container-x">
+      {featured && <PostCard post={featured} featured />}
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        {rest.map((p, i) => <PostCard post={p} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>

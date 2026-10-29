@@ -1,0 +1,79 @@
+---
+import Logo from './Logo.astro';
+import { serviceLinks, site, waLink } from '@/data/site';
+
+const year = new Date().getFullYear();
+const services = serviceLinks;
+const company = [
+  { label: 'About us', href: '/about' },
+  ...(site.showWork ? [{ label: 'Our work', href: '/work' }] : []),
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Privacy policy', href: '/privacy' },
+];
+const socials = [
+  { label: 'Instagram', href: site.social.instagram, d: 'M12 7.4A4.6 4.6 0 1 0 12 16.6 4.6 4.6 0 1 0 12 7.4Zm0 7.6a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm5.9-7.8a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0ZM21 8.3c-.1-1.5-.4-2.8-1.5-3.8S17.2 3.1 15.7 3c-1.5-.1-6-.1-7.5 0-1.5.1-2.8.4-3.8 1.5S3.1 6.8 3 8.3c-.1 1.5-.1 6 0 7.5.1 1.5.4 2.8 1.5 3.8s2.3 1.4 3.8 1.5c1.5.1 6 .1 7.5 0 1.5-.1 2.8-.4 3.8-1.5s1.4-2.3 1.5-3.8c.1-1.5.1-6 0-7.5Zm-2 9.1a3 3 0 0 1-1.7 1.7c-1.2.5-4 .4-5.3.4s-4.1.1-5.3-.4a3 3 0 0 1-1.7-1.7c-.5-1.2-.4-4-.4-5.3s-.1-4.1.4-5.3a3 3 0 0 1 1.7-1.7c1.2-.5 4-.4 5.3-.4s4.1-.1 5.3.4a3 3 0 0 1 1.7 1.7c.5 1.2.4 4 .4 5.3s.1 4.1-.4 5.3Z' },
+  { label: 'LinkedIn', href: site.social.linkedin, d: 'M6.9 21H3.2V9h3.7v12ZM5 7.4a2.1 2.1 0 1 1 0-4.3 2.1 2.1 0 0 1 0 4.3ZM21 21h-3.7v-5.8c0-1.4 0-3.2-2-3.2s-2.2 1.5-2.2 3.1V21H9.4V9h3.5v1.6h.1c.5-.9 1.7-2 3.5-2 3.8 0 4.5 2.5 4.5 5.7V21Z' },
+  { label: 'YouTube', href: site.social.youtube, d: 'M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15V9l5.2 3L10 15Z' },
+  { label: 'X (Twitter)', href: site.social.x, d: 'M17.8 3h3.1l-6.8 7.7 8 10.3h-6.2l-4.9-6.3L5.4 21H2.3l7.2-8.3L1.8 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z' },
+];
+---
+
+<footer class="relative overflow-hidden bg-ink text-white">
+  <div class="bg-grid-dark mask-fade-b pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+  <div class="container-x relative pt-20 pb-10">
+    <div class="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
+      <div>
+        <Logo dark />
+        <p class="mt-5 max-w-xs text-muted-dark">
+          Logo design, website design aur AI automation — ek hi jagah. Hum digital ka bhaari kaam uthate hain, taaki aap business pe focus kar sakein.
+        </p>
+        <ul class="mt-6 flex gap-2" aria-label="Social media">
+          {
+            socials.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener me" aria-label={s.label} class="grid size-11 place-items-center rounded-full border border-line-dark transition-all duration-300 hover:-translate-y-1 hover:border-orange hover:bg-orange hover:text-ink">
+                  <svg class="size-[18px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={s.d} /></svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="eyebrow text-orange">Services · <span lang="hi">सेवाएँ</span></h2>
+        <ul class="mt-5 space-y-3">
+          {services.map((s) => <li><a href={s.href} class="link-underline font-medium">{s.label}</a></li>)}        </ul>
+      </div>
+
+      <div>
+        <h2 class="eyebrow text-orange">Company</h2>
+        <ul class="mt-5 space-y-3">
+          {company.map((c) => <li><a href={c.href} class="link-underline font-medium">{c.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="eyebrow text-orange">Contact · <span lang="hi">संपर्क</span></h2>
+        <ul class="mt-5 space-y-3 font-medium">
+          <li><a href={waLink()} target="_blank" rel="noopener" class="link-underline">WhatsApp: {site.phone}</a></li>
+          <li class="whitespace-nowrap"><a href={`tel:${site.phoneRaw}`} class="link-underline">Call: {site.phone}</a></li>
+          <li class="whitespace-nowrap"><a href={`tel:${site.phone2Raw}`} class="link-underline">Call: {site.phone2}</a></li>
+          <li><a href={`mailto:${site.email}`} class="link-underline">{site.email}</a></li>
+          <li class="text-muted-dark">{site.hours}</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="display-hi pointer-events-none mt-16 select-none text-center text-[clamp(4.5rem,19vw,17rem)] text-white/[0.06]" lang="hi" aria-hidden="true">
+      काम हम करेंगे
+    </p>
+
+    <div class="mt-6 flex flex-col items-start justify-between gap-3 border-t border-line-dark pt-6 text-sm text-muted-dark sm:flex-row sm:items-center">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p>Made in India <span aria-hidden="true">🇮🇳</span> with chai & code <span aria-hidden="true">☕</span></p>
+    </div>
+  </div>
+</footer>

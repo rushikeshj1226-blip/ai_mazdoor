@@ -1,0 +1,31 @@
+---
+import Bi from './Bi.astro';
+
+export interface Props {
+  num?: string;
+  label: string;
+  hi?: string;
+  title: string;
+  text?: string;
+  dark?: boolean;
+  center?: boolean;
+  as?: 'h1' | 'h2';
+  id?: string;
+  class?: string;
+}
+const { num, label, hi, title, text, dark = false, center = false, as: Tag = 'h2', id, class: className = '' } = Astro.props;
+---
+
+<div class:list={[center && 'mx-auto text-center', 'max-w-3xl', className]} data-reveal>
+  <p class:list={['eyebrow flex items-center gap-3', center && 'justify-center', dark ? 'text-muted-dark' : 'text-muted']}>
+    {num && <span class="text-orange">{num}</span>}
+    <span class="h-px w-8 bg-current opacity-60" aria-hidden="true"></span>
+    <span><Bi text={label} /></span>
+  </p>
+  <Tag class="mt-5" id={id}>
+    {hi && <span class="display-hi block text-[clamp(2.4rem,1.6rem+3.6vw,4.6rem)]" lang="hi"><span class:list={['hl', dark && 'text-white']}>{hi}</span></span>}
+    <span class:list={['block font-extrabold leading-[1.08]', hi ? 'mt-3 text-[clamp(1.35rem,1.1rem+1.1vw,2.1rem)]' : 'text-[clamp(2.1rem,1.4rem+3vw,3.9rem)]', dark ? 'text-white' : 'text-ink']}>{title}</span>
+  </Tag>
+  {text && <p class:list={['mt-5 text-lg leading-relaxed', center && 'mx-auto', 'max-w-2xl', dark ? 'text-muted-dark' : 'text-muted']}>{text}</p>}
+  <slot />
+</div>

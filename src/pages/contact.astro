@@ -1,0 +1,44 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import FAQ from '@/components/FAQ.astro';
+import { homeFaqs } from '@/data/services';
+import { site } from '@/data/site';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: `Contact ${site.name}`,
+  url: `${site.url}/contact`,
+  mainEntity: {
+    '@id': `${site.url}/#organization`,
+    contactPoint: [site.phoneRaw, site.phone2Raw].map((telephone) => ({
+      '@type': 'ContactPoint',
+      telephone,
+      email: site.email,
+      contactType: 'sales',
+      areaServed: 'IN',
+      availableLanguage: ['English', 'Hindi'],
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title="Contact AI Mazdoor — Free Consultation for Logo, Website & AI"
+  description="Talk to AI Mazdoor on WhatsApp, phone or email. Free 20-minute consultation in Hindi or English for logo design, website design and AI automation."
+  schema={[contactSchema]}
+>
+  <div class="container-x pt-28 sm:pt-32">
+    <Breadcrumbs items={[{ label: 'Contact' }]} />
+  </div>
+  <ContactSection heading="h1" />
+
+  <section class="pb-20 sm:pb-28" aria-labelledby="cfaq-title">
+    <div class="container-x max-w-4xl!">
+      <h2 id="cfaq-title" class="text-[clamp(1.8rem,1.4rem+1.6vw,2.6rem)] font-extrabold" data-reveal>Before you reach out <span class="hi text-orange-deep" lang="hi">· सवाल</span></h2>
+      <div class="mt-8"><FAQ faqs={homeFaqs.slice(1)} /></div>
+    </div>
+  </section>
+</BaseLayout>

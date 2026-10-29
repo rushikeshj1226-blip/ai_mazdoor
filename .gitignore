@@ -1,0 +1,16 @@
+# dependencies & build output
+node_modules/
+dist/
+.astro/
+
+# secrets & local tooling
+.env
+.env.*
+!.env.example
+.vercel/
+.claude/
+
+# misc
+.DS_Store
+npm-debug.log*
+scripts/og-raw.png

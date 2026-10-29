@@ -1,0 +1,184 @@
+---
+// Animated WhatsApp-style demo of an AI booking bot (hero visual).
+const messages = [
+  { from: 'in', text: 'नमस्ते! कल शाम 5 बजे appointment मिलेगा?', time: '9:41 PM' },
+  { from: 'out', text: 'जी हाँ! कल 5:00 PM slot खाली है ✅ आपका नाम बताइए?', time: '9:41 PM' },
+  { from: 'in', text: 'Rohit Sharma', time: '9:42 PM' },
+  { from: 'out', text: 'Booked, Rohit ji! 🎉 Booking #A-2041 · कल 5:00 PM. एक घंटा पहले reminder भेज दूँगा।', time: '9:42 PM' },
+];
+---
+
+<div class="chat-demo relative mx-auto w-full max-w-[26rem]" data-chat>
+  <div class="card-hard relative overflow-hidden rounded-[1.75rem]!">
+    <div class="flex items-center gap-3 border-b-2 border-ink bg-ink px-4 py-3 text-white">
+      <span class="grid size-10 place-items-center rounded-xl bg-orange">
+        <svg class="size-5" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 7c1.2 8.4 4.6 11.8 13 13-8.4 1.2-11.8 4.6-13 13-1.2-8.4-4.6-11.8-13-13 8.4-1.2 11.8-4.6 13-13Z" fill="#141210" /></svg>
+      </span>
+      <span class="flex-1 leading-tight">
+        <span class="block font-bold">Clinic Assistant</span>
+        <span class="flex items-center gap-1.5 text-xs text-muted-dark"><span class="size-2 rounded-full bg-[#25D366]"></span>online · AI by Mazdoor</span>
+      </span>
+      <span class="eyebrow rounded-full border border-white/25 px-2.5 py-1 text-[0.6rem]! text-white/80">WhatsApp</span>
+    </div>
+
+    <div class="chat-body bg-grid flex min-h-[19.5rem] flex-col gap-2.5 bg-orange-tint/60 p-4" aria-live="off">
+      {
+        messages.map((m, i) => (
+          <div class:list={['relative flex', m.from === 'out' ? 'justify-end' : 'justify-start']}>
+            {m.from === 'out' && (
+              <div class="typing" data-typing aria-hidden="true">
+                <span /><span /><span />
+              </div>
+            )}
+            <div class:list={['bubble', m.from === 'out' ? 'bubble-out' : 'bubble-in']} data-step={i}>
+              <p>{m.text}</p>
+              <span class="mt-1 block text-right text-[0.65rem] opacity-60">{m.time}{m.from === 'out' && ' ✓✓'}</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="flex items-center justify-between gap-2 border-t-2 border-ink bg-white px-4 py-2.5">
+      <span class="eyebrow text-[0.62rem]! text-muted">● Automated · 24×7</span>
+      <span class="eyebrow text-[0.62rem]! text-orange-deep"><span lang="hi">हिंदी</span> + English</span>
+    </div>
+  </div>
+
+  <div class="toast toast-a" data-toast="0">
+    <span class="grid size-7 place-items-center rounded-lg bg-[#0f9d58] text-xs text-white">✓</span>
+    Lead saved → Google Sheet
+  </div>
+  <div class="toast toast-b" data-toast="1">
+    <span class="grid size-7 place-items-center rounded-lg bg-orange text-xs">🔔</span>
+    Owner notified on WhatsApp
+  </div>
+</div>
+
+<style>
+  .bubble {
+    max-width: 82%;
+    padding: 0.6rem 0.8rem 0.4rem;
+    border-radius: 1rem;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    border: 1.5px solid var(--color-ink);
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+    transform-origin: bottom left;
+    transition: opacity 0.45s var(--ease-out-expo), transform 0.55s var(--ease-spring);
+  }
+  .bubble-in {
+    background: #fff;
+    border-bottom-left-radius: 0.3rem;
+  }
+  .bubble-out {
+    background: var(--color-orange);
+    border-bottom-right-radius: 0.3rem;
+    transform-origin: bottom right;
+  }
+  .bubble.show {
+    opacity: 1;
+    transform: none;
+  }
+  /* Typing dots sit on top of the (still invisible) reply, so nothing shifts */
+  .typing {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 4px;
+    padding: 0.75rem 0.9rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: 1rem 1rem 0.3rem 1rem;
+    background: var(--color-orange);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .typing.show {
+    opacity: 1;
+  }
+  .typing span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-ink);
+    animation: typing 1s infinite ease-in-out;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .toast {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem 0.5rem 0.5rem;
+    border: 2px solid var(--color-ink);
+    border-radius: 0.9rem;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 3px 3px 0 var(--color-ink);
+    opacity: 0;
+    scale: 0.8;
+    transition: opacity 0.4s, scale 0.5s var(--ease-spring);
+  }
+  .toast.show {
+    opacity: 1;
+    scale: 1;
+    animation: float 5s ease-in-out infinite;
+  }
+  .toast-a { --r: 3deg; top: -1.4rem; right: -0.5rem; }
+  .toast-b { --r: -3deg; bottom: -2.9rem; left: -0.75rem; }
+  @media (min-width: 40rem) {
+    .toast-a { right: -2.5rem; }
+    .toast-b { left: -3rem; }
+  }
+
+  :global(.no-js) .bubble,
+  :global(.no-js) .toast { opacity: 1; transform: none; scale: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .bubble, .toast { opacity: 1; transform: none; scale: 1; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-chat]');
+  if (root && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
+    const toasts = [...root.querySelectorAll<HTMLElement>('[data-toast]')];
+    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    let visible = true;
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(root);
+
+    const run = async () => {
+      while (true) {
+        if (!visible || document.hidden) { await wait(600); continue; }
+        steps.forEach((s) => s.classList.remove('show'));
+        toasts.forEach((t) => t.classList.remove('show'));
+        await wait(700);
+        for (const s of steps) {
+          const typing = s.parentElement?.querySelector<HTMLElement>('[data-typing]');
+          const isBot = Boolean(typing);
+          if (typing) {
+            typing.classList.add('show');
+            await wait(1300);
+            typing.classList.remove('show');
+          }
+          s.classList.add('show');
+          await wait(isBot ? 900 : 1100);
+          if (s.dataset.step === '2') toasts[0].classList.add('show');
+        }
+        toasts[1].classList.add('show');
+        await wait(5200);
+      }
+    };
+    run();
+  }
+</script>

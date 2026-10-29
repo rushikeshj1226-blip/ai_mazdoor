@@ -1,0 +1,33 @@
+---
+export interface Props {
+  items?: string[];
+  tone?: 'orange' | 'ink';
+  reverse?: boolean;
+  class?: string;
+}
+const {
+  items = ['Logo Design', 'लोगो डिज़ाइन', 'Website Design', 'वेबसाइट', 'WhatsApp Bots', 'AI ऑटोमेशन', 'Brand Identity', 'SEO', 'Landing Pages', 'CRM Automation', 'AI Chat Assistants', 'ई-कॉमर्स'],
+  tone = 'orange',
+  reverse = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class:list={['marquee overflow-hidden border-y-2 border-ink py-4', tone === 'orange' ? 'bg-orange text-ink' : 'bg-ink text-white', className]} aria-hidden="true">
+  <div class:list={['flex w-max animate-marquee gap-0 hover:[animation-play-state:paused]', reverse && '[animation-direction:reverse]']}>
+    {
+      [0, 1].map(() => (
+        <ul class="flex shrink-0 items-center">
+          {items.map((t) => (
+            <li class="flex items-center gap-6 px-6 text-[clamp(1.25rem,1rem+1vw,1.9rem)] font-extrabold tracking-tight whitespace-nowrap">
+              <span class={/[ऀ-ॿ]/.test(t) ? 'hi' : ''}>{t}</span>
+              <svg class:list={['size-5 shrink-0', tone === 'orange' ? 'text-ink' : 'text-orange']} viewBox="0 0 40 40" fill="currentColor">
+                <path d="M20 2c1.6 11.2 6.8 16.4 18 18-11.2 1.6-16.4 6.8-18 18-1.6-11.2-6.8-16.4-18-18 11.2-1.6 16.4-6.8 18-18Z" />
+              </svg>
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>

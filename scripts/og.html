@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8" />
+<title>OG image template</title>
+<style>
+  @font-face { font-family: "Bricolage"; src: url("../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; }
+  @font-face { font-family: "Baloo"; src: url("../node_modules/@fontsource-variable/baloo-2/files/baloo-2-devanagari-wght-normal.woff2") format("woff2"); font-weight: 400 800; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: "Bricolage", "Baloo", sans-serif;
+    background: #fffaf5;
+    color: #141210;
+    position: relative;
+    background-image:
+      linear-gradient(to right, rgb(20 18 16 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(20 18 16 / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .blob { position: absolute; right: -160px; top: -120px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle, rgb(255 95 21 / 0.35), transparent 65%); }
+  .wrap { position: absolute; inset: 64px 72px; display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .brand svg { width: 64px; height: 64px; }
+  .brand b { font-family: "Bricolage", "Baloo"; font-size: 40px; font-weight: 800; line-height: 1.1; }
+  .brand small { display: block; font: 600 14px/1 ui-monospace, Consolas, monospace; letter-spacing: .22em; color: #5f5a55; text-transform: uppercase; margin-top: 4px; }
+  h1 { margin-top: 44px; font-family: "Bricolage", "Baloo"; font-weight: 800; font-size: 112px; line-height: 1.04; letter-spacing: -0.02em; }
+  .chip { display: inline-block; background: #ff5f15; border: 5px solid #141210; border-radius: 22px; padding: 0 18px; transform: rotate(-2deg); box-shadow: 8px 8px 0 #141210; }
+  p { margin-top: auto; font-size: 34px; font-weight: 800; letter-spacing: -0.02em; display: flex; gap: 18px; align-items: center; }
+  p i { width: 14px; height: 14px; border-radius: 50%; background: #ff5f15; display: inline-block; }
+  .url { position: absolute; right: 0; bottom: 6px; font: 600 20px ui-monospace, Consolas, monospace; color: #5f5a55; letter-spacing: .08em; }
+</style>
+</head>
+<body>
+  <div class="blob"></div>
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 40 40"><rect width="40" height="40" rx="11" fill="#FF5F15"/><path d="M20 7c1.2 8.4 4.6 11.8 13 13-8.4 1.2-11.8 4.6-13 13-1.2-8.4-4.6-11.8-13-13 8.4-1.2 11.8-4.6 13-13Z" fill="#141210"/><circle cx="30.5" cy="9.5" r="2.6" fill="#fff"/></svg>
+      <div><b>मज़दूर<span style="color:#ff5f15">.</span></b><small>AI Mazdoor</small></div>
+    </div>
+    <h1>काम हम करेंगे,<br /><span class="chip">नाम</span> आपका।</h1>
+    <p>Logo Design <i></i> Website Design <i></i> AI Automation</p>
+    <span class="url">Made in India</span>
+  </div>
+</body>
+</html>

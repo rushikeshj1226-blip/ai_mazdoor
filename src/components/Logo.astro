@@ -1,0 +1,21 @@
+---
+export interface Props {
+  dark?: boolean;
+  class?: string;
+}
+const { dark = false, class: className = '' } = Astro.props;
+---
+
+<span class:list={['group inline-flex items-center gap-2.5', className]}>
+  <svg class="size-9 shrink-0 transition-transform duration-500 ease-(--ease-spring) group-hover:rotate-90" viewBox="0 0 40 40" aria-hidden="true">
+    <rect width="40" height="40" rx="11" fill="#FF5F15" />
+    <path d="M20 7c1.2 8.4 4.6 11.8 13 13-8.4 1.2-11.8 4.6-13 13-1.2-8.4-4.6-11.8-13-13 8.4-1.2 11.8-4.6 13-13Z" fill="#141210" />
+    <circle cx="30.5" cy="9.5" r="2.6" fill="#fff" />
+  </svg>
+  <span class="flex flex-col">
+    <span class:list={['hi text-[1.45rem] leading-[1.15] font-extrabold tracking-tight', dark ? 'text-white' : 'text-ink']} lang="hi">
+      मज़दूर<span class="text-orange">.</span>
+    </span>
+    <span class:list={['eyebrow mt-0.5 text-[0.58rem]! leading-none tracking-[0.22em]!', dark ? 'text-muted-dark' : 'text-muted']}>AI Mazdoor</span>
+  </span>
+</span>

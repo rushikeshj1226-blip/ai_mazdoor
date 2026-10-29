@@ -1,0 +1,37 @@
+---
+import type { Faq } from '@/data/services';
+
+export interface Props {
+  faqs: Faq[];
+  schema?: boolean;
+}
+const { faqs, schema = true } = Astro.props;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<div class="divide-y-2 divide-ink border-y-2 border-ink">
+  {
+    faqs.map((f, i) => (
+      <details class="faq group" data-reveal style={`--d:${i % 4}`} open={i === 0}>
+        <summary class="flex cursor-pointer items-center justify-between gap-6 py-6 text-left">
+          <h3 class="text-lg font-bold leading-snug sm:text-xl">{f.q}</h3>
+          <span class="faq-icon grid size-10 shrink-0 place-items-center rounded-full border-2 border-ink bg-white" aria-hidden="true">
+            <svg class="size-4" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+          </span>
+        </summary>
+        <p class="max-w-3xl pr-14 pb-7 leading-relaxed text-muted">{f.a}</p>
+      </details>
+    ))
+  }
+</div>
+
+{schema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}

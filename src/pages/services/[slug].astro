@@ -1,0 +1,172 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Marquee from '@/components/Marquee.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ServiceVisual from '@/components/ServiceVisual.astro';
+import ProcessSteps from '@/components/ProcessSteps.astro';
+import FAQ from '@/components/FAQ.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import { services, lower, type Service } from '@/data/services';
+import { site } from '@/data/site';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+const { service: s } = Astro.props as { service: Service };
+const others = services.filter((o) => o.slug !== s.slug);
+const hiWords = s.displayHi.split(' ');
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: s.label,
+  serviceType: s.serviceType,
+  description: s.metaDescription,
+  url: `${site.url}/services/${s.slug}`,
+  provider: { '@id': `${site.url}/#organization` },
+  areaServed: { '@type': 'Country', name: 'India' },
+  availableLanguage: ['English', 'Hindi'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `${s.name} deliverables`,
+    itemListElement: s.deliverables.map((d) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: d.title, description: d.text },
+    })),
+  },
+};
+
+const preset = s.name as 'Logo Design' | 'Website Design' | 'AI Automation';
+---
+
+<BaseLayout title={s.metaTitle} description={s.metaDescription} schema={[serviceSchema]} keywords={[s.name, s.label, `${s.name} India`, `${s.name} company`, 'AI Mazdoor']}>
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
+    <div class="bg-grid mask-fade-b pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -top-40 -right-40 size-[36rem] rounded-full bg-orange/20 blur-3xl" aria-hidden="true"></div>
+    <div class="container-x relative">
+      <Breadcrumbs items={[{ label: 'Services', href: '/services' }, { label: s.name }]} />
+      <div class="mt-8 grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <p class="rise eyebrow inline-flex items-center gap-2 rounded-full border-2 border-ink bg-white px-3 py-1.5" style="--i:0">
+            <span class="size-2 rounded-full bg-orange" aria-hidden="true"></span>{s.label} · <span class="hi tracking-normal normal-case" lang="hi">{s.nameHi}</span>
+          </p>
+          <h1 class="mt-6">
+            <span class="display-hi block text-[clamp(2.9rem,1.8rem+5vw,6rem)]" lang="hi">
+              {hiWords.map((w, i) => <><span class="rise" style={`--i:${i + 1}`}>{w}</span>{' '}</>)}
+            </span>
+            <span class="rise mt-5 block max-w-2xl text-[clamp(1.4rem,1.1rem+1.4vw,2.3rem)] leading-[1.1] font-extrabold" style={`--i:${hiWords.length + 1}`}>{s.h1}</span>
+          </h1>
+          <p class="rise mt-6 max-w-xl text-lg leading-relaxed text-muted" style={`--i:${hiWords.length + 2}`}>{s.intro}</p>
+          <div class="rise mt-8 flex flex-col gap-3 xs:flex-row xs:flex-wrap" style={`--i:${hiWords.length + 3}`}>
+            <a href="#contact" class="btn btn-primary">Get a free quote <span class="arrow" aria-hidden="true">→</span></a>
+            <a href="#process" class="btn btn-ghost">How it works</a>
+          </div>
+          <dl class="rise mt-10 grid max-w-xl grid-cols-3 gap-3" style={`--i:${hiWords.length + 4}`}>
+            {
+              s.highlights.map((h) => (
+                <div class="rounded-2xl border-2 border-ink bg-white p-3 sm:p-4">
+                  <dt class="sr-only">{h.label}</dt>
+                  <dd>
+                    <span class="block text-xl leading-tight font-extrabold sm:text-2xl">{h.value}</span>
+                    <span class="mt-1 block text-xs leading-snug font-medium text-muted">{h.label}</span>
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <div class="relative">
+          <div class="card-hard p-5 sm:p-7">
+            <ServiceVisual kind={s.slug} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Marquee items={s.deliverables.map((d) => d.title).concat(s.nameHi, s.name)} />
+
+  <!-- ============ 01 · DELIVERABLES ============ -->
+  <section class="py-20 sm:py-28" aria-labelledby="get-title">
+    <div class="container-x">
+      <SectionHeading id="get-title" num="01" label="What you get · क्या मिलेगा" hi="सब कुछ, एक ही जगह।" title={`Everything included in our ${lower(s.name)} service`} />
+      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          s.deliverables.map((d, i) => (
+            <article class="group relative overflow-hidden rounded-[1.5rem] border-2 border-ink bg-white p-7 transition-all duration-500 ease-(--ease-out-expo) hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--color-orange)]" data-reveal style={`--d:${i % 3}`}>
+              <span class="grid size-12 place-items-center rounded-2xl bg-ink font-mono text-sm font-bold text-orange transition-transform duration-500 ease-(--ease-spring) group-hover:-rotate-6">0{i + 1}</span>
+              <h3 class="mt-5 text-xl font-extrabold">{d.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted">{d.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 · USE CASES ============ -->
+  <section class="relative overflow-hidden bg-ink py-20 text-white sm:py-28" aria-labelledby="use-title">
+    <div class="bg-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="container-x relative">
+      <SectionHeading id="use-title" num="02" label="Who it’s for · किसके लिए" hi="हर बिज़नेस के लिए।" title={s.useCasesTitle} dark />
+      <ul class="mt-14 grid gap-px overflow-hidden rounded-[1.5rem] border border-line-dark bg-line-dark sm:grid-cols-2 lg:grid-cols-3">
+        {
+          s.useCases.map((u, i) => (
+            <li class="group bg-ink p-7 transition-colors duration-300 hover:bg-ink-2" data-reveal style={`--d:${i % 3}`}>
+              <p class="flex items-center justify-between">
+                <span class="hi text-sm font-bold text-orange" lang="hi">{u.hi}</span>
+                <span class="text-orange opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">→</span>
+              </p>
+              <h3 class="mt-3 text-xl font-extrabold">{u.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted-dark">{u.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 03 · PROCESS ============ -->
+  <section id="process" class="py-20 sm:py-28" aria-labelledby="process-title">
+    <div class="container-x">
+      <SectionHeading id="process-title" num="03" label="Process · प्रक्रिया" hi="ऐसे होता है काम।" title={`Our ${lower(s.name)} process, step by step`} />
+      <div class="mt-14"><ProcessSteps steps={s.process} /></div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · FAQ ============ -->
+  <section class="bg-orange-tint py-20 sm:py-28" aria-labelledby="faq-title">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading id="faq-title" num="04" label="FAQ · सवाल-जवाब" hi="पूछिए, बेझिझक।" title={`${s.name} — frequently asked questions`} />
+      </div>
+      <FAQ faqs={s.faqs} />
+    </div>
+  </section>
+
+  <!-- ============ 05 · OTHER SERVICES ============ -->
+  <section class="pt-20 pb-8 sm:pt-28" aria-labelledby="more-title">
+    <div class="container-x">
+      <h2 id="more-title" class="eyebrow text-muted" data-reveal>Pair it with · <span lang="hi">साथ में लें</span></h2>
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        {
+          others.map((o, i) => (
+            <a href={`/services/${o.slug}`} class="group flex items-center justify-between gap-6 rounded-[1.5rem] border-2 border-ink bg-white p-6 transition-all duration-500 ease-(--ease-out-expo) hover:-translate-y-1 hover:bg-orange sm:p-8" data-reveal style={`--d:${i}`}>
+              <span>
+                <span class="hi block text-sm font-bold text-muted group-hover:text-ink" lang="hi">{o.nameHi}</span>
+                <span class="mt-1 block text-[clamp(1.5rem,1.2rem+1.2vw,2.2rem)] leading-tight font-extrabold">{o.name}</span>
+                <span class="mt-2 block max-w-md text-muted group-hover:text-ink">{o.short}</span>
+              </span>
+              <span class="grid size-14 shrink-0 place-items-center rounded-full border-2 border-ink bg-white text-xl transition-transform duration-500 ease-(--ease-spring) group-hover:-rotate-45" aria-hidden="true">→</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ContactSection preset={preset} />
+</BaseLayout>

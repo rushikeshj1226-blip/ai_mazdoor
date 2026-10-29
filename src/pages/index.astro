@@ -1,0 +1,447 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ChatDemo from '@/components/ChatDemo.astro';
+import Marquee from '@/components/Marquee.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ServiceVisual from '@/components/ServiceVisual.astro';
+import ProcessSteps from '@/components/ProcessSteps.astro';
+import WorkCard from '@/components/WorkCard.astro';
+import FAQ from '@/components/FAQ.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import Founders from '@/components/Founders.astro';
+import { services, homeFaqs } from '@/data/services';
+import { work } from '@/data/work';
+import { site } from '@/data/site';
+
+const heroWords = ['काम', 'हम', 'करेंगे,'];
+
+// Section numbers follow the visible order, so hiding Work leaves no gap
+const order = ['problem', 'services', 'process', 'ai', ...(site.showWork ? ['work'] : []), 'promise', 'founders', 'faq', 'contact'];
+const num = (key: string) => String(order.indexOf(key) + 1).padStart(2, '0');
+
+const problems = [
+  { bad: 'Logo bana tha 10 minute mein — har jagah alag dikhta hai.', good: 'A logo and brand kit that looks premium on a signboard and a phone screen.' },
+  { bad: 'Website hai, par mobile pe slow hai aur Google pe dikhti nahi.', good: 'A website that loads in under 2 seconds and is built to rank on Google.' },
+  { bad: 'WhatsApp pe 200 enquiries, jawab dene wala sirf ek.', good: 'An AI assistant that answers every enquiry in seconds — Hindi or English.' },
+  { bad: 'Leads diary mein, follow-up bhagwan bharose.', good: 'Every lead logged, followed up and reported to you automatically.' },
+];
+
+const homeProcess = [
+  { hi: 'बात', title: 'Free call', text: 'A 20-minute call to understand your business, customers and goals — in Hindi or English.' },
+  { hi: 'प्लान', title: 'Fixed quote', text: 'Written scope, price and timeline within 24 hours. What we quote is what you pay.' },
+  { hi: 'काम', title: 'Design & build', text: 'Regular WhatsApp updates while we work. You review every stage, we refine until it is right.' },
+  { hi: 'लॉन्च', title: 'Launch & support', text: 'We go live, hand over every file and login, train your team and stay on call for 30 days.' },
+];
+
+const aiCards = [
+  { tag: 'Replies', hi: 'जवाब', title: 'Enquiry → answer', text: 'WhatsApp and website bots answer FAQs, prices and timings in Hindi, English or Hinglish — 24×7.' },
+  { tag: 'Captures', hi: 'लीड', title: 'Chat → lead', text: 'Every name, number and requirement goes straight into Google Sheets or your CRM. No copy-paste.' },
+  { tag: 'Follows up', hi: 'फ़ॉलो-अप', title: 'Lead → customer', text: 'Reminders, quotes and payment links go out at the right time, so no lead goes cold.' },
+  { tag: 'Reports', hi: 'रिपोर्ट', title: 'Data → decisions', text: 'A morning summary on WhatsApp: new leads, bookings, sales and pending follow-ups.' },
+];
+
+const promises = [
+  { title: 'Fixed price, written upfront.', text: 'No “extra charges” surprise at the end. Scope changes are discussed and agreed before any extra work.' },
+  { title: 'You own everything.', text: 'Logo files, website code, domain, WhatsApp number and bot — all in your name, from day one.' },
+  { title: 'Your data stays yours.', text: 'We never sell or reuse your business or customer data. Access is removed whenever you ask.' },
+  { title: 'Real humans on WhatsApp.', text: 'Talk directly to the people designing and building your project — not a call centre.' },
+];
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  alternateName: site.nameHi,
+  inLanguage: 'en-IN',
+  publisher: { '@id': `${site.url}/#organization` },
+};
+---
+
+<BaseLayout
+  title="AI Mazdoor | Logo Design, Website Design & AI Automation Agency"
+  description="AI Mazdoor builds memorable logos, fast SEO-ready websites and WhatsApp/AI bots for Indian businesses. Fixed prices, Hindi & English support. Free consultation."
+  keywords={['logo design India', 'website design company India', 'AI automation agency', 'WhatsApp chatbot for business', 'brand identity design', 'AI Mazdoor']}
+  schema={[websiteSchema]}
+>
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden bg-paper pt-28 pb-16 sm:pt-36 lg:pb-24">
+    <div class="container-x relative grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
+      <div>
+        <p class="rise eyebrow inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full border-2 border-ink bg-white px-3.5 py-1.5 text-ink" style="--i:0">
+          <span class="size-2 animate-pulse rounded-full bg-orange" aria-hidden="true"></span>
+          Logo · Website · AI Automation <span class="hidden text-muted sm:inline">— Made in India</span>
+        </p>
+
+        <h1 class="mt-7">
+          <span class="display-hi block text-[clamp(3.4rem,2rem+7vw,7.6rem)]" lang="hi">
+            {heroWords.map((w, i) => <><span class="rise" style={`--i:${i + 1}`}>{w}</span>{' '}</>)}
+            <br />
+            <span class="rise" style="--i:4"><span class="name-chip inline-block -rotate-2 rounded-2xl border-[3px] border-ink bg-orange px-[0.18em] shadow-[5px_5px_0_var(--color-ink)]">नाम</span></span>
+            <span class="rise" style="--i:5">आपका।</span>
+          </span>
+          <span class="rise mt-6 block max-w-2xl text-[clamp(1.35rem,1.05rem+1.3vw,2.25rem)] font-extrabold leading-[1.12]" style="--i:6">
+            Logo design, website design & AI automation for Indian businesses that want to grow — not just exist online.
+          </span>
+        </h1>
+
+        <p class="rise mt-6 max-w-xl text-lg leading-relaxed text-muted" style="--i:7">
+          <span class="hi mb-1 block font-semibold text-ink" lang="hi">आप बिज़नेस चलाइए, डिजिटल का भारी काम हम उठाएँगे।</span>
+          A logo people remember, a website that ranks on Google, and AI bots that reply to customers at 2 AM — one team, one fixed price, zero headache.
+        </p>
+
+        <div class="rise mt-9 flex flex-col gap-3 xs:flex-row xs:flex-wrap" style="--i:8">
+          <a href="#contact" class="btn btn-primary">
+            <span class="hi" lang="hi">प्रोजेक्ट शुरू करें</span> · Start a project <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a href={site.showWork ? '/work' : '/services'} class="btn btn-dark">{site.showWork ? 'See our work' : 'Explore services'} <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+
+        <ul class="rise mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-ink" style="--i:9">
+          <li class="flex items-center gap-2"><span class="grid size-5 place-items-center rounded-md bg-ink text-[0.65rem] text-orange" aria-hidden="true">✓</span>Reply within 2 hours</li>
+          <li class="flex items-center gap-2"><span class="grid size-5 place-items-center rounded-md bg-ink text-[0.65rem] text-orange" aria-hidden="true">✓</span>Fixed price, no surprises</li>
+          <li class="flex items-center gap-2"><span class="grid size-5 place-items-center rounded-md bg-ink text-[0.65rem] text-orange" aria-hidden="true">✓</span><span class="hi" lang="hi">हिंदी</span> + English support</li>
+        </ul>
+      </div>
+
+      <div class="relative pb-4 lg:pl-6">
+        <ChatDemo />
+      </div>
+    </div>
+  </section>
+
+  <Marquee />
+
+  <!-- ============ PROBLEM ============ -->
+  <section class="bg-orange-tint py-20 sm:py-28" aria-labelledby="problem-title">
+    <div class="container-x">
+      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+        <SectionHeading
+          id="problem-title"
+          num={num('problem')}
+          label="The problem · असली दिक्कत"
+          hi="ऑनलाइन ग्राहक, ऑफ़लाइन आदतें।"
+          title="Most small businesses lose customers online — quietly."
+        />
+        <p class="max-w-md text-lg leading-relaxed text-muted lg:justify-self-end" data-reveal>
+          Customers search on Google, judge you by your logo and expect a WhatsApp reply in minutes. Miss any one of these, and the order quietly goes to the competitor down the road.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-6 lg:grid-cols-2">
+        <div class="rounded-[1.75rem] border-2 border-ink bg-white p-7 sm:p-9" data-reveal="left">
+          <h3 class="flex items-center justify-between gap-4 text-2xl font-extrabold">
+            <span><span class="hi" lang="hi">आज का हाल</span> · Today</span>
+            <span class="eyebrow rounded-full bg-ink/5 px-3 py-1 text-[0.62rem]! text-muted">Without a system</span>
+          </h3>
+          <ul class="mt-7 space-y-5">
+            {problems.map((p) => (
+              <li class="flex gap-4">
+                <span class="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full border-2 border-ink/20 text-sm font-black text-muted" aria-hidden="true">✕</span>
+                <span class="text-[1.05rem] font-medium text-ink-3">{p.bad}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="rounded-[1.75rem] border-2 border-ink bg-ink p-7 text-white shadow-[8px_8px_0_var(--color-orange)] sm:p-9" data-reveal="right">
+          <h3 class="flex items-center justify-between gap-4 text-2xl font-extrabold">
+            <span><span class="hi" lang="hi">AI मज़दूर के साथ</span></span>
+            <span class="eyebrow rounded-full bg-orange px-3 py-1 text-[0.62rem]! text-ink">With us</span>
+          </h3>
+          <ul class="mt-7 space-y-5">
+            {problems.map((p) => (
+              <li class="flex gap-4">
+                <span class="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-orange text-sm font-black text-ink" aria-hidden="true">✓</span>
+                <span class="text-[1.05rem] font-medium">{p.good}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services" class="py-20 sm:py-28" aria-labelledby="services-title">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+        <SectionHeading
+          id="services-title"
+          num={num('services')}
+          label="Services · सेवाएँ"
+          hi="तीन काम, पूरी लगन से।"
+          title="Three services. One obsession — your growth."
+        />
+        <a href="/services" class="btn btn-ghost shrink-0 self-start lg:self-end" data-reveal>All services <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="mt-14 grid gap-5 lg:grid-cols-6">
+        {
+          services.map((s, i) => {
+            const dark = s.slug === 'ai-automation';
+            return (
+              <article
+                class:list={[
+                  'group relative flex flex-col overflow-hidden rounded-[1.75rem] border-2 border-ink p-7 transition-[translate,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 sm:p-8',
+                  dark ? 'bg-ink text-white hover:shadow-[8px_8px_0_var(--color-orange)] lg:col-span-4 lg:grid lg:grid-cols-2 lg:gap-8' : 'bg-white hover:shadow-[8px_8px_0_var(--color-ink)] lg:col-span-3',
+                ]}
+                data-reveal
+                style={`--d:${i}`}
+              >
+                <div class="flex flex-col">
+                  <div class="flex items-center justify-between">
+                    <span class:list={['font-mono text-sm font-bold', dark ? 'text-orange' : 'text-orange-deep']}>0{i + 1}</span>
+                    <span class:list={['hi text-sm font-bold', dark ? 'text-muted-dark' : 'text-muted']} lang="hi">{s.nameHi}</span>
+                  </div>
+                  <h3 class="mt-4 text-[1.9rem] leading-tight font-extrabold tracking-tight">
+                    <a href={`/services/${s.slug}`} class="after:absolute after:inset-0 after:content-['']">{s.name}</a>
+                  </h3>
+                  <p class:list={['mt-3 leading-relaxed', dark ? 'text-muted-dark' : 'text-muted']}>{s.short}</p>
+                  <ul class="mt-5 flex flex-wrap gap-2">
+                    {s.deliverables.slice(0, 4).map((d) => (
+                      <li class:list={['chip', dark ? 'text-white/80' : 'text-ink/80']}>{d.title}</li>
+                    ))}
+                  </ul>
+                  <span class:list={['mt-auto inline-flex items-center gap-2 pt-7 font-bold', dark ? 'text-orange' : 'text-orange-deep']}>
+                    Explore {s.name} <span class="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden="true">→</span>
+                  </span>
+                </div>
+                <ServiceVisual kind={s.slug} dark={dark} class={dark ? 'mt-8 lg:mt-0' : 'mt-8'} />
+              </article>
+            );
+          })
+        }
+        <aside class="relative flex flex-col justify-between overflow-hidden rounded-[1.75rem] border-2 border-ink bg-orange p-7 sm:p-8 lg:col-span-2" data-reveal style="--d:3">
+          <div>
+            <p class="display-hi text-[2.6rem]" lang="hi">कुछ और चाहिए?</p>
+            <p class="mt-3 text-lg font-semibold leading-snug">SEO, Google Business Profile, social media kits, maintenance — or something custom. Just ask.</p>
+          </div>
+          <a href="#contact" class="btn btn-dark mt-8 self-start">Let’s talk <span class="arrow" aria-hidden="true">→</span></a>
+          <svg class="pointer-events-none absolute -right-10 -bottom-10 size-44 animate-spin-slow text-ink/10" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2c1.6 11.2 6.8 16.4 18 18-11.2 1.6-16.4 6.8-18 18-1.6-11.2-6.8-16.4-18-18 11.2-1.6 16.4-6.8 18-18Z" fill="currentColor" /></svg>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section class="pb-20 sm:pb-28" aria-labelledby="process-title">
+    <div class="container-x">
+      <SectionHeading
+        id="process-title"
+          num={num('process')}
+        label="How it works · प्रक्रिया"
+        hi="बात से लॉन्च तक, बस 4 कदम।"
+        title="A simple, transparent process — no jargon, no ghosting."
+      />
+      <div class="mt-14">
+        <ProcessSteps steps={homeProcess} />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AI ============ -->
+  <section class="relative overflow-hidden bg-ink py-20 text-white sm:py-28" aria-labelledby="ai-title">
+    <div class="bg-grid-dark pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute -bottom-48 -left-32 size-[34rem] rounded-full bg-orange/20 blur-3xl" aria-hidden="true"></div>
+    <div class="container-x relative">
+      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+        <SectionHeading
+          id="ai-title"
+          num={num('ai')}
+          label="AI, in plain words · आसान भाषा में"
+          hi="AI आपका सबसे मेहनती कर्मचारी।"
+          title="Your hardest-working employee doesn’t need chai breaks."
+          dark
+        />
+        <p class="max-w-md text-lg leading-relaxed text-muted-dark lg:justify-self-end" data-reveal>
+          We don’t sell “AI magic”. We find the boring, repetitive work in your business and hand it to reliable AI workers — with a human always in control.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          aiCards.map((c, i) => (
+            <article class="group rounded-[1.4rem] border border-line-dark bg-ink-2/80 p-6 transition-all duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 hover:border-orange" data-reveal style={`--d:${i}`}>
+              <p class="eyebrow flex items-center justify-between text-orange">{c.tag}<span class="hi text-[0.8rem] tracking-normal normal-case text-muted-dark" lang="hi">{c.hi}</span></p>
+              <h3 class="mt-4 text-xl font-extrabold">{c.title}</h3>
+              <p class="mt-3 text-[0.95rem] leading-relaxed text-muted-dark">{c.text}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <!-- Time-saved calculator -->
+      <div class="mt-10 grid gap-8 rounded-[1.75rem] border-2 border-orange bg-ink-2 p-6 sm:p-9 lg:grid-cols-[1.2fr_1fr] lg:items-center" data-reveal data-calc>
+        <div>
+          <h3 class="text-2xl font-extrabold"><span class="hi" lang="hi">कितना समय बचेगा?</span> · Time-saved calculator</h3>
+          <p class="mt-2 text-muted-dark">Move the sliders to match your business. Rough estimate, assuming AI handles ~70% of routine chats.</p>
+          <div class="mt-7 space-y-6">
+            <label class="block">
+              <span class="flex justify-between text-sm font-bold"><span>Enquiries per day</span><output class="font-mono text-orange" data-out="enq">40</output></span>
+              <input type="range" min="5" max="300" step="5" value="40" class="range mt-3 w-full" data-in="enq" />
+            </label>
+            <label class="block">
+              <span class="flex justify-between text-sm font-bold"><span>Minutes spent per enquiry</span><output class="font-mono text-orange" data-out="min">4</output></span>
+              <input type="range" min="1" max="15" step="1" value="4" class="range mt-3 w-full" data-in="min" />
+            </label>
+          </div>
+        </div>
+        <div class="rounded-[1.4rem] bg-orange p-7 text-ink">
+          <p class="eyebrow">Time back every month</p>
+          <p class="mt-2 flex items-baseline gap-2"><span class="text-[clamp(3.4rem,2.6rem+3vw,5rem)] leading-none font-extrabold tracking-tight" data-result="hours">49</span><span class="text-xl font-extrabold">hours</span></p>
+          <p class="mt-2 font-semibold">≈ <span data-result="days">6</span> full working days — <span class="hi" lang="hi">बिना छुट्टी, बिना थकान।</span></p>
+          <a href="/services/ai-automation" class="btn btn-dark mt-6">See AI automation <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORK (hidden while site.showWork is false) ============ -->
+  {
+    site.showWork && (
+      <section class="py-20 sm:py-28" aria-labelledby="work-title">
+        <div class="container-x">
+          <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+            <SectionHeading
+              id="work-title"
+              num={num('work')}
+              label="Work · हमारा काम"
+              hi="काम बोलता है।"
+              title="A taste of what we design and build."
+              text="Concept projects that show how we think — from bilingual brand identities to booking bots."
+            />
+            <a href="/work" class="btn btn-ghost shrink-0 self-start lg:self-end" data-reveal>View all work <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <div class="mt-14 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+            {work.slice(0, 3).map((w, i) => <WorkCard item={w} index={i} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Marquee tone={site.showWork ? 'ink' : 'orange'} reverse items={['Fixed price', 'तय दाम', 'You own everything', 'सब कुछ आपका', 'Hindi + English', 'Real humans', 'असली लोग', '30-day support']} />
+
+  <!-- ============ PROMISE ============ -->
+  <section class="py-20 sm:py-28" aria-labelledby="promise-title">
+    <div class="container-x grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading
+          id="promise-title"
+          num={num('promise')}
+          label="Our promise · हमारा वादा"
+          hi="वादे, जो हम नहीं तोड़ते।"
+          title="Rules we put in writing."
+          text="Trust is the real product. These promises are part of every proposal we send."
+        />
+        <dl class="mt-10 grid grid-cols-3 gap-3" data-reveal>
+          <div class="rounded-2xl border-2 border-ink bg-white p-4">
+            <dt class="text-xs font-semibold text-muted">Reply time</dt>
+            <dd class="mt-1 text-3xl font-extrabold"><span data-count="2">2</span><span class="text-base"> hrs</span></dd>
+          </div>
+          <div class="rounded-2xl border-2 border-ink bg-white p-4">
+            <dt class="text-xs font-semibold text-muted">Ownership</dt>
+            <dd class="mt-1 text-3xl font-extrabold"><span data-count="100" data-suffix="%">100%</span></dd>
+          </div>
+          <div class="rounded-2xl border-2 border-ink bg-orange p-4">
+            <dt class="text-xs font-semibold">Free support</dt>
+            <dd class="mt-1 text-3xl font-extrabold"><span data-count="30">30</span><span class="text-base"> days</span></dd>
+          </div>
+        </dl>
+      </div>
+      <ol class="border-t-2 border-ink">
+        {
+          promises.map((p, i) => (
+            <li class="group grid grid-cols-[3.5rem_1fr] gap-4 border-b-2 border-ink py-8 sm:grid-cols-[5rem_1fr]" data-reveal style={`--d:${i}`}>
+              <span class="font-mono text-sm font-bold text-orange-deep">0{i + 1}</span>
+              <div>
+                <h3 class="text-[clamp(1.4rem,1.1rem+1vw,2rem)] leading-tight font-extrabold transition-colors duration-300 group-hover:text-orange-deep">{p.title}</h3>
+                <p class="mt-2 max-w-lg leading-relaxed text-muted">{p.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FOUNDERS ============ -->
+  <Founders
+    num={num('founders')}
+    class="bg-orange-tint"
+    hi="काम के पीछे के चेहरे।"
+    title="Meet the founders of AI Mazdoor."
+    text="Our founding team shares one idea: every small business in India deserves big-brand digital muscle."
+  />
+
+  <!-- ============ FAQ ============ -->
+  <section class="py-20 sm:py-28" aria-labelledby="faq-title">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading id="faq-title"
+          num={num('faq')} label="FAQ · सवाल-जवाब" hi="आपके सवाल, हमारे जवाब।" title="Frequently asked questions" />
+        <p class="mt-6 text-muted" data-reveal>Still curious? <a href="#contact" class="font-bold text-orange-deep underline underline-offset-4">Ask us directly</a> — we reply fast.</p>
+      </div>
+      <FAQ faqs={homeFaqs} />
+    </div>
+  </section>
+
+  <ContactSection num={num('contact')} />
+</BaseLayout>
+
+<style>
+  .range {
+    appearance: none;
+    height: 8px;
+    border-radius: 99px;
+    background: linear-gradient(to right, var(--color-orange) var(--p, 12%), #ffffff22 var(--p, 12%));
+    cursor: pointer;
+  }
+  .range::-webkit-slider-thumb {
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--color-orange);
+    box-shadow: 0 0 0 4px rgb(255 95 21 / 0.2);
+    transition: transform 0.2s var(--ease-spring);
+  }
+  .range::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  .range::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--color-orange);
+  }
+  .name-chip { transform-origin: 30% 70%; }
+</style>
+
+<script>
+  const calc = document.querySelector<HTMLElement>('[data-calc]');
+  if (calc) {
+    const enq = calc.querySelector<HTMLInputElement>('[data-in="enq"]')!;
+    const min = calc.querySelector<HTMLInputElement>('[data-in="min"]')!;
+    const out = (k: string) => calc.querySelector<HTMLElement>(`[data-out="${k}"]`)!;
+    const res = (k: string) => calc.querySelector<HTMLElement>(`[data-result="${k}"]`)!;
+    const fill = (r: HTMLInputElement) => {
+      const p = ((+r.value - +r.min) / (+r.max - +r.min)) * 100;
+      r.style.setProperty('--p', `${p}%`);
+    };
+    const update = () => {
+      out('enq').textContent = enq.value;
+      out('min').textContent = min.value;
+      // 26 working days, ~70% of routine chats automated
+      const hours = Math.round((+enq.value * +min.value * 26 * 0.7) / 60);
+      res('hours').textContent = hours.toLocaleString('en-IN');
+      res('days').textContent = Math.max(1, Math.round(hours / 8)).toLocaleString('en-IN');
+      fill(enq);
+      fill(min);
+    };
+    enq.addEventListener('input', update);
+    min.addEventListener('input', update);
+    update();
+  }
+</script>

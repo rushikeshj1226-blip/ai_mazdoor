@@ -1,0 +1,407 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Bricolage Grotesque Variable", "Baloo 2 Variable", ui-sans-serif, system-ui, sans-serif;
+  /* Latin glyphs inside Hindi phrases stay in Bricolage; Devanagari falls through to Baloo 2 */
+  --font-hi: "Bricolage Grotesque Variable", "Baloo 2 Variable", ui-sans-serif, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --color-orange: #ff5f15;
+  --color-orange-deep: #c24100;
+  --color-orange-soft: #ffe6d5;
+  --color-orange-tint: #fff2e8;
+  --color-ink: #141210;
+  --color-ink-2: #211e1b;
+  --color-ink-3: #34302c;
+  --color-paper: #fffaf5;
+  --color-muted: #5f5a55;
+  --color-muted-dark: #b3aca5;
+  --color-line: #ebe2d8;
+  --color-line-dark: #2f2b27;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-blink: blink 1.1s steps(2, start) infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+
+  --breakpoint-xs: 26rem;
+}
+
+@layer base {
+  :root {
+    interpolate-size: allow-keywords;
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    text-size-adjust: 100%;
+    overflow-x: clip;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-orange);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-orange);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  [lang="hi"],
+  .hi {
+    font-family: var(--font-hi);
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 40rem) {
+    .container-x { padding-inline: 1.5rem; }
+  }
+  @media (min-width: 64rem) {
+    .container-x { padding-inline: 2rem; }
+  }
+
+  /* Big Devanagari display type — generous line-height so matras never clip */
+  .display-hi {
+    font-family: var(--font-hi);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    padding-top: 0.04em;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* Devanagari inside letter-spaced labels: tracking breaks conjuncts, so reset it */
+  .eyebrow [lang="hi"],
+  .eyebrow .hi {
+    letter-spacing: 0.01em;
+    font-size: 1.12em;
+    line-height: 1;
+    text-transform: none;
+  }
+
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.1;
+    border: 2px solid var(--color-ink);
+    transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-out-expo), background-color 0.25s, color 0.25s;
+    will-change: transform;
+    white-space: nowrap;
+  }
+  .btn .arrow {
+    transition: transform 0.35s var(--ease-spring);
+  }
+  .btn:hover .arrow {
+    transform: translateX(4px);
+  }
+  .btn-primary {
+    background: var(--color-orange);
+    color: var(--color-ink);
+    box-shadow: 4px 4px 0 var(--color-ink);
+  }
+  .btn-primary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--color-ink);
+  }
+  .btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--color-ink);
+  }
+  .btn-dark {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .btn-dark:hover {
+    background: var(--color-ink-3);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+  }
+  .btn-ghost:hover {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .btn-light {
+    background: #fff;
+    color: var(--color-ink);
+    border-color: #fff;
+  }
+  .btn-light:hover {
+    transform: translateY(-2px);
+    background: var(--color-orange);
+    border-color: var(--color-orange);
+  }
+
+  /* Hard-shadow card — the signature AI Mazdoor block */
+  .card-hard {
+    background: #fff;
+    border: 2px solid var(--color-ink);
+    border-radius: 1.5rem;
+    box-shadow: 8px 8px 0 var(--color-orange);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: 1.5px solid currentColor;
+    line-height: 1.1;
+  }
+
+  .link-underline {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+    transition: background-size 0.4s var(--ease-out-expo);
+  }
+  .link-underline:hover {
+    background-size: 100% 2px;
+  }
+
+  .prose-am {
+    font-size: 1.075rem;
+    line-height: 1.75;
+    color: var(--color-ink-2);
+  }
+  .prose-am > * + * { margin-top: 1.15em; }
+  .prose-am h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); font-weight: 800; line-height: 1.15; margin-top: 2em; color: var(--color-ink); }
+  .prose-am h3 { font-size: 1.3rem; font-weight: 750; line-height: 1.25; margin-top: 1.6em; color: var(--color-ink); }
+  .prose-am a { color: var(--color-orange-deep); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .prose-am ul { list-style: none; padding-left: 0; }
+  .prose-am ul li { position: relative; padding-left: 1.6rem; }
+  .prose-am ul li + li { margin-top: 0.5em; }
+  .prose-am ul li::before { content: ""; position: absolute; left: 0.2rem; top: 0.68em; width: 0.6rem; height: 0.6rem; border-radius: 3px; background: var(--color-orange); }
+  .prose-am ol { list-style: decimal; padding-left: 1.4rem; }
+  .prose-am ol li + li { margin-top: 0.5em; }
+  .prose-am ol li::marker { color: var(--color-orange-deep); font-weight: 800; }
+  .prose-am strong { color: var(--color-ink); font-weight: 750; }
+  .prose-am blockquote { border-left: 4px solid var(--color-orange); padding: 0.4rem 0 0.4rem 1.2rem; font-size: 1.2rem; font-weight: 600; color: var(--color-ink); }
+  .prose-am table { width: 100%; border-collapse: collapse; font-size: 0.98rem; display: block; overflow-x: auto; }
+  .prose-am th, .prose-am td { text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--color-line); white-space: nowrap; }
+  .prose-am th { background: var(--color-orange-tint); font-weight: 750; }
+  .prose-am code { font-family: var(--font-mono); font-size: 0.9em; background: var(--color-orange-tint); padding: 0.1em 0.35em; border-radius: 4px; }
+}
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke: 2px currentColor;
+    color: transparent;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(20 18 16 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(20 18 16 / 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .bg-grid-dark {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  }
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--r, 0deg)); }
+}
+@keyframes blink {
+  to { visibility: hidden; }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(0.6em); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes pop {
+  0% { opacity: 0; transform: translateY(10px) scale(0.96); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes dash {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgb(255 95 21 / 0.55); }
+  100% { box-shadow: 0 0 0 14px rgb(255 95 21 / 0); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes word-swap {
+  0%, 22% { transform: translateY(0); }
+  25%, 47% { transform: translateY(-1.1em); }
+  50%, 72% { transform: translateY(-2.2em); }
+  75%, 97% { transform: translateY(-3.3em); }
+  100% { transform: translateY(-4.4em); }
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Headline words rise in on load (layered so utilities like `block` still win) */
+@layer components {
+  .rise {
+    display: inline-block;
+    opacity: 0;
+    animation: rise 0.9s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+}
+
+/* Scroll reveal — only hidden when JS is running, so content is never lost */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+  transition-delay: calc(var(--d, 0) * 80ms);
+}
+/* Side slides only on wide screens — on phones they would push past the viewport edge */
+@media (min-width: 64rem) {
+  .js [data-reveal="left"] { transform: translateX(-32px); }
+  .js [data-reveal="right"] { transform: translateX(32px); }
+}
+.js [data-reveal="scale"] { transform: scale(0.94); }
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Marker highlight that sweeps in behind a phrase once its block is revealed */
+.hl {
+  background: linear-gradient(var(--color-orange), var(--color-orange)) 0 86% / 0% 0.38em no-repeat;
+  transition: background-size 1.1s var(--ease-out-expo) 0.35s;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.no-js .hl,
+.is-in .hl,
+.hl.is-in {
+  background-size: 100% 0.38em;
+}
+
+/* Top scroll progress — pure CSS scroll-driven animation */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--color-orange);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 60;
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: grow-x linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+/* Smooth FAQ accordions with the new ::details-content pseudo-element */
+details.faq::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size 0.45s var(--ease-out-expo), content-visibility 0.45s allow-discrete;
+}
+details.faq[open]::details-content {
+  block-size: auto;
+}
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary { list-style: none; }
+details.faq .faq-icon { transition: transform 0.4s var(--ease-spring), background-color 0.25s; }
+details.faq[open] .faq-icon { transform: rotate(45deg); background: var(--color-orange); }
+
+/* Cross-document view transitions between pages */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root) {
+  animation: 0.25s ease both vt-out;
+}
+::view-transition-new(root) {
+  animation: 0.45s var(--ease-out-expo) both vt-in;
+}
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+.site-header { view-transition-name: site-header; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .rise { opacity: 1; animation: none; }
+  .js [data-reveal] { opacity: 1; transform: none; }
+  @view-transition { navigation: none; }
+}

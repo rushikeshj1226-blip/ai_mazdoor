@@ -1,0 +1,191 @@
+---
+// Small animated illustrations for each service — pure SVG/CSS, no images.
+export interface Props {
+  kind: 'logo-design' | 'website-design' | 'ai-automation';
+  dark?: boolean;
+  class?: string;
+}
+const { kind, dark = false, class: className = '' } = Astro.props;
+---
+
+<div class:list={['sv relative', className]} data-reveal="scale" aria-hidden="true">
+  {
+    kind === 'logo-design' && (
+      <div class="sv-logo relative grid aspect-[4/3] place-items-center">
+        <svg viewBox="0 0 200 150" class="h-full w-full">
+          <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle class="draw" cx="100" cy="72" r="46" stroke={dark ? '#fff' : '#141210'} stroke-width="3" style="--len:290" />
+            <path class="draw" d="M100 38c3 22 12 31 34 34-22 3-31 12-34 34-3-22-12-31-34-34 22-3 31-12 34-34Z" stroke="#FF5F15" stroke-width="3.5" style="--len:260;--dl:.4s" />
+            <path class="draw" d="M40 132h120" stroke={dark ? '#fff' : '#141210'} stroke-width="2" stroke-dasharray="4 6" style="--len:120;--dl:.9s" />
+          </g>
+          <g class="guides" stroke={dark ? '#ffffff33' : '#14121022'} stroke-width="1">
+            <line x1="100" y1="8" x2="100" y2="140" />
+            <line x1="30" y1="72" x2="170" y2="72" />
+            <circle cx="100" cy="72" r="62" fill="none" />
+          </g>
+        </svg>
+        <div class="swatches absolute right-3 bottom-3 flex gap-1.5">
+          <span class="sw size-6 rounded-full border-2 border-ink bg-orange" style="--k:0" />
+          <span class="sw size-6 rounded-full border-2 border-ink bg-ink" style="--k:1" />
+          <span class="sw size-6 rounded-full border-2 border-ink bg-orange-soft" style="--k:2" />
+          <span class="sw size-6 rounded-full border-2 border-ink bg-white" style="--k:3" />
+        </div>
+        <span class="eyebrow absolute top-3 left-3 rounded-full border-2 border-ink bg-white px-2.5 py-1 text-[0.7rem]! tracking-normal! normal-case! text-ink">Aa · अ</span>
+      </div>
+    )
+  }
+  {
+    kind === 'website-design' && (
+      <div class="sv-web relative aspect-[4/3]">
+        <div class="absolute inset-x-2 top-2 bottom-6 overflow-hidden rounded-2xl border-2 border-ink bg-white">
+          <div class="flex items-center gap-1.5 border-b-2 border-ink px-3 py-2">
+            <span class="size-2.5 rounded-full bg-orange" /><span class="size-2.5 rounded-full bg-ink/25" /><span class="size-2.5 rounded-full bg-ink/25" />
+            <span class="ml-2 h-4 flex-1 rounded-full bg-orange-tint px-2 font-mono text-[0.55rem] leading-4 text-muted">yourbusiness.in</span>
+          </div>
+          <div class="grid grid-cols-[1.4fr_1fr] gap-3 p-3">
+            <div class="space-y-2">
+              <span class="sk block h-3 w-4/5 rounded" />
+              <span class="sk block h-3 w-3/5 rounded" style="--k:1" />
+              <span class="sk block h-2 w-full rounded opacity-60" style="--k:2" />
+              <span class="sk block h-2 w-11/12 rounded opacity-60" style="--k:3" />
+              <span class="mt-2 inline-block h-5 w-20 rounded-full border-2 border-ink bg-orange" />
+            </div>
+            <div class="sk rounded-xl" style="--k:2" />
+          </div>
+          <div class="grid grid-cols-3 gap-2 px-3">
+            <span class="sk h-10 rounded-lg" style="--k:3" />
+            <span class="sk h-10 rounded-lg" style="--k:4" />
+            <span class="sk h-10 rounded-lg" style="--k:5" />
+          </div>
+        </div>
+        <div class="score absolute right-0 bottom-0 grid text-ink size-[4.6rem] place-items-center rounded-full border-2 border-ink bg-white shadow-[3px_3px_0_var(--color-ink)]">
+          <svg viewBox="0 0 60 60" class="absolute inset-1.5 -rotate-90">
+            <circle cx="30" cy="30" r="26" fill="none" stroke="#14121014" stroke-width="5" />
+            <circle class="ring" cx="30" cy="30" r="26" fill="none" stroke="#0f9d58" stroke-width="5" stroke-linecap="round" />
+          </svg>
+          <span class="relative text-center leading-none"><span class="block text-lg font-extrabold">98</span><span class="text-[0.5rem] font-bold tracking-wide uppercase">speed</span></span>
+        </div>
+      </div>
+    )
+  }
+  {
+    kind === 'ai-automation' && (
+      <div class="sv-ai relative aspect-[4/3]">
+        <svg viewBox="0 0 240 180" class="absolute inset-0 h-full w-full" fill="none">
+          <path class="wire" d="M56 46 C 100 46, 90 90, 120 90" stroke={dark ? '#ffffff55' : '#14121055'} stroke-width="2" stroke-dasharray="5 7" />
+          <path class="wire" d="M56 134 C 100 134, 90 90, 120 90" stroke={dark ? '#ffffff55' : '#14121055'} stroke-width="2" stroke-dasharray="5 7" />
+          <path class="wire" d="M120 90 C 150 90, 150 46, 186 46" stroke="#FF5F15" stroke-width="2.5" stroke-dasharray="5 7" />
+          <path class="wire" d="M120 90 C 150 90, 150 134, 186 134" stroke="#FF5F15" stroke-width="2.5" stroke-dasharray="5 7" />
+        </svg>
+        <span class="node" style="left:3%;top:25.5%">
+          <span class="ico bg-[#25D366] text-white"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 0 0-5.6 9.8L1.5 14.5l3.3-.9A6.5 6.5 0 1 0 8 1.5Z" /></svg></span>WhatsApp
+        </span>
+        <span class="node" style="left:3%;top:74.5%">
+          <span class="ico bg-white text-ink"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" /><path d="M2 8h12M8 2c2 2.2 2 9.8 0 12M8 2c-2 2.2-2 9.8 0 12" /></svg></span>Website
+        </span>
+        <span class="node node-ai" style="left:50%;top:50%"><span class="pulse" />AI</span>
+        <span class="node" style="right:2%;top:25.5%">
+          <span class="ico bg-[#0f9d58] text-white"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="2.5" width="11" height="11" rx="1.5" /><path d="M2.5 6.5h11M2.5 10h11M6.5 6.5v7" /></svg></span>Sheet
+        </span>
+        <span class="node" style="right:2%;top:74.5%">
+          <span class="ico bg-orange text-ink"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.8a4.2 4.2 0 0 0-4.2 4.2v2.6L2.5 11h11l-1.3-2.4V6A4.2 4.2 0 0 0 8 1.8Zm-1.8 10.4a1.8 1.8 0 0 0 3.6 0Z" /></svg></span>Owner
+        </span>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  /* Logo — strokes draw themselves in */
+  .draw {
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+  }
+  .is-in .draw,
+  :global(.no-js) .draw {
+    animation: draw 1.6s var(--ease-out-expo) forwards;
+    animation-delay: var(--dl, 0s);
+  }
+  .sw {
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.5s var(--ease-spring), opacity 0.4s;
+    transition-delay: calc(var(--k) * 90ms + 1s);
+  }
+  .is-in .sw,
+  :global(.no-js) .sw {
+    transform: none;
+    opacity: 1;
+  }
+
+  /* Website — skeleton shimmer + speed ring */
+  .sk {
+    background: linear-gradient(90deg, #f1e8df 25%, #ffe6d5 50%, #f1e8df 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2.4s linear infinite;
+    animation-delay: calc(var(--k, 0) * 120ms);
+  }
+  .ring {
+    stroke-dasharray: 163;
+    stroke-dashoffset: 163;
+    transition: stroke-dashoffset 1.6s var(--ease-out-expo) 0.5s;
+  }
+  .is-in .ring,
+  :global(.no-js) .ring {
+    stroke-dashoffset: 3;
+  }
+  .score {
+    animation: float 5s ease-in-out infinite;
+    --r: -4deg;
+  }
+
+  /* AI — data flows along wires */
+  .wire {
+    animation: dash 0.9s linear infinite;
+  }
+  .node {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.6rem 0.3rem 0.3rem;
+    border: 2px solid var(--color-ink);
+    border-radius: 0.7rem;
+    background: #fff;
+    color: var(--color-ink);
+    font-size: 0.72rem;
+    font-weight: 700;
+    box-shadow: 2px 2px 0 var(--color-ink);
+    translate: 0 -50%;
+  }
+  .node .ico {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1.5px solid var(--color-ink);
+    border-radius: 0.45rem;
+    font-size: 0.7rem;
+  }
+  .node .ico svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+  .node-ai {
+    translate: -50% -50%;
+    width: 3.6rem;
+    height: 3.6rem;
+    justify-content: center;
+    padding: 0;
+    border-radius: 1rem;
+    background: var(--color-orange);
+    font-size: 1.05rem;
+    font-weight: 800;
+  }
+  .node-ai .pulse {
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    animation: pulse-ring 1.8s ease-out infinite;
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import WorkCard from '@/components/WorkCard.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import { work } from '@/data/work';
+import { site } from '@/data/site';
+
+// /work is only generated while the portfolio is switched on (site.showWork)
+export function getStaticPaths() {
+  return site.showWork ? [{ params: { work: 'work' } }] : [];
+}
+
+const filters = [
+  { key: 'all', label: 'All work', hi: 'सब' },
+  { key: 'Logo', label: 'Logo & brand', hi: 'लोगो' },
+  { key: 'Website', label: 'Websites', hi: 'वेबसाइट' },
+  { key: 'AI', label: 'AI automation', hi: 'AI' },
+];
+---
+
+<BaseLayout
+  title="Our Work — Logo, Website & AI Automation Projects | AI Mazdoor"
+  description="See how AI Mazdoor designs brand identities, builds fast websites and automates businesses with WhatsApp & AI bots — with bilingual Hindi-English design."
+>
+  <PageHero
+    label="Work · पोर्टफ़ोलियो"
+    hi="काम बोलता है।"
+    title="Brands, websites and bots — designed to work hard."
+    text="A selection of concept projects that show our thinking: bilingual identities, conversion-focused websites and AI workflows built for real Indian businesses."
+    crumbs={[{ label: 'Work' }]}
+  />
+
+  <section class="pb-20 sm:pb-28" aria-label="Projects">
+    <div class="container-x">
+      <div class="flex flex-wrap gap-2" role="toolbar" aria-label="Filter projects" data-filters>
+        {
+          filters.map((f, i) => (
+            <button type="button" class="filter-btn rounded-full border-2 border-ink px-4 py-2 text-sm font-bold transition-all duration-300" aria-pressed={i === 0 ? 'true' : 'false'} data-filter={f.key}>
+              {f.label} <span class="hi ml-1 opacity-60" lang="hi">{f.hi}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="mt-12 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-3" data-grid>
+        {work.map((w, i) => <WorkCard item={w} index={i} />)}
+      </div>
+
+      <div class="mt-20 flex flex-col items-start justify-between gap-6 rounded-[2rem] border-2 border-ink bg-orange p-8 sm:flex-row sm:items-center sm:p-10" data-reveal>
+        <p>
+          <span class="display-hi block text-[clamp(2rem,1.5rem+2vw,3rem)]" lang="hi">अगला नाम आपका हो?</span>
+          <span class="mt-1 block text-lg font-semibold">Your project could be the next one on this page.</span>
+        </p>
+        <a href="#contact" class="btn btn-dark shrink-0">Start a project <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>
+
+<style>
+  .filter-btn[aria-pressed='true'] {
+    background: var(--color-ink);
+    color: #fff;
+    box-shadow: 3px 3px 0 var(--color-orange);
+  }
+  .filter-btn[aria-pressed='false']:hover {
+    background: var(--color-orange-tint);
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-grid] [data-tags]');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.filter!;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      const apply = () =>
+        cards.forEach((c) => {
+          const show = key === 'all' || c.dataset.tags!.split(' ').includes(key);
+          c.hidden = !show;
+          if (show) c.classList.add('is-in');
+        });
+      // Animate the re-layout with the View Transitions API when available
+      if ('startViewTransition' in document && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        (document as Document & { startViewTransition(cb: () => void): void }).startViewTransition(apply);
+      } else apply();
+    })
+  );
+</script>

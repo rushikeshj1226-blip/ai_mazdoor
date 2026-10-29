@@ -1,0 +1,117 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Marquee from '@/components/Marquee.astro';
+import ContactSection from '@/components/ContactSection.astro';
+import Founders from '@/components/Founders.astro';
+import { site } from '@/data/site';
+
+const values = [
+  { hi: 'मेहनत', title: 'Hard work, honestly priced', text: 'A mazdoor is paid for honest work. We price by effort and value — never by how big your company looks.' },
+  { hi: 'सादगी', title: 'Simple over clever', text: 'Clear designs, plain language and tools your team can actually use. If it needs a manual, we simplify it.' },
+  { hi: 'भरोसा', title: 'Trust before transactions', text: 'Fixed quotes, full ownership and real humans on WhatsApp. Trust is the product; design is the delivery.' },
+  { hi: 'भाषा', title: 'Your language, not jargon', text: 'Hindi, English or Hinglish — we explain everything the way you would explain it to a friend.' },
+];
+
+const approach = [
+  { label: 'Human', hi: 'इंसान', text: 'Designers and developers own the thinking: strategy, taste, craft and the final call.' },
+  { label: 'AI', hi: 'मशीन', text: 'AI handles the heavy lifting: research, first drafts, testing and repetitive work — so you get more, faster.' },
+  { label: 'You', hi: 'आप', text: 'You stay in control at every stage with simple reviews on WhatsApp — no endless meetings.' },
+];
+
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: `About ${site.name}`,
+  url: `${site.url}/about`,
+  mainEntity: { '@id': `${site.url}/#organization` },
+};
+---
+
+<BaseLayout
+  title="About AI Mazdoor — Design & AI Automation Agency from India"
+  description="Indian design & AI automation studio by co-founders Swapnil Bagul, Rushikesh Jadhav and Pratik Kambale — logos, websites and AI bots for small businesses."
+  schema={[aboutSchema]}
+>
+  <PageHero
+    label="About us · हमारे बारे में"
+    hi="डिजिटल के मज़दूर, आपके लिए।"
+    title="We do the heavy digital lifting, so you can run your business."
+    crumbs={[{ label: 'About' }]}
+  />
+
+  <section class="pb-20 sm:pb-28">
+    <div class="container-x grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+      <div class="prose-am" data-reveal>
+        <p class="text-2xl! leading-snug! font-bold text-ink!">
+          “Mazdoor” means worker — someone who shows up, does the hard work honestly and takes pride in it. That is exactly who we want to be for your business.
+        </p>
+        <p>
+          Big brands have teams of designers, developers and automation engineers. Most Indian small businesses have the owner, a phone and a hundred WhatsApp messages. We started AI Mazdoor to close that gap.
+        </p>
+        <p>
+          We combine human design craft with modern AI tools. That means you get a logo with a real idea behind it, a website that is genuinely fast and findable on Google, and AI bots that handle the repetitive work your team should not be doing — at prices that make sense for a growing business.
+        </p>
+      </div>
+      <div class="relative" data-reveal="right">
+        <div class="card-hard relative overflow-hidden bg-ink! p-8 text-white sm:p-10">
+          <p class="eyebrow text-orange">Our mission · <span lang="hi">हमारा मिशन</span></p>
+          <p class="display-hi mt-5 text-[clamp(2.2rem,1.6rem+2.4vw,3.6rem)]" lang="hi">हर छोटे बिज़नेस को बड़े ब्रांड जैसी डिजिटल ताक़त।</p>
+          <p class="mt-4 text-lg text-muted-dark">Big-brand digital muscle for every small business in India.</p>
+          <svg class="pointer-events-none absolute -right-12 -bottom-12 size-52 animate-spin-slow text-orange/15" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2c1.6 11.2 6.8 16.4 18 18-11.2 1.6-16.4 6.8-18 18-1.6-11.2-6.8-16.4-18-18 11.2-1.6 16.4-6.8 18-18Z" fill="currentColor" /></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Founders
+    num="01"
+    class="bg-orange-tint"
+    hi="हमारे संस्थापक।"
+    title="The founders behind AI Mazdoor"
+    text="Our founding team shares one idea: every small business in India deserves big-brand digital muscle."
+  />
+
+  <Marquee items={['Logo Design', 'मेहनत', 'Website Design', 'सादगी', 'AI Automation', 'भरोसा', 'Made in India', 'भाषा']} />
+
+  <section class="py-20 sm:py-28" aria-labelledby="values-title">
+    <div class="container-x">
+      <SectionHeading id="values-title" num="02" label="Values · हमारे उसूल" hi="चार उसूल।" title="The principles behind every project" />
+      <div class="mt-14 grid gap-4 sm:grid-cols-2">
+        {
+          values.map((v, i) => (
+            <article class="group flex gap-6 rounded-[1.6rem] border-2 border-ink bg-white p-7 transition-all duration-500 ease-(--ease-out-expo) hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--color-orange)] sm:p-8" data-reveal style={`--d:${i % 2}`}>
+              <span class="hi grid size-16 shrink-0 place-items-center rounded-2xl border-2 border-ink bg-orange text-lg font-extrabold transition-transform duration-500 ease-(--ease-spring) group-hover:rotate-[-6deg]" lang="hi">{v.hi}</span>
+              <div>
+                <h3 class="text-xl font-extrabold">{v.title}</h3>
+                <p class="mt-2 leading-relaxed text-muted">{v.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-orange-tint py-20 sm:py-28" aria-labelledby="approach-title">
+    <div class="container-x">
+      <SectionHeading id="approach-title" num="03" label="How we work · हमारा तरीका" hi="इंसान + AI = बेहतर काम।" title="Human craft, AI speed — and you in control." />
+      <div class="mt-14 grid gap-4 lg:grid-cols-3">
+        {
+          approach.map((a, i) => (
+            <article class:list={['rounded-[1.6rem] border-2 border-ink p-8', i === 1 ? 'bg-ink text-white' : 'bg-white']} data-reveal style={`--d:${i}`}>
+              <p class="flex items-baseline justify-between">
+                <span class="text-[2.6rem] leading-none font-extrabold">{a.label}</span>
+                <span class:list={['hi text-lg font-bold', i === 1 ? 'text-orange' : 'text-orange-deep']} lang="hi">{a.hi}</span>
+              </p>
+              <p class:list={['mt-4 leading-relaxed', i === 1 ? 'text-muted-dark' : 'text-muted']}>{a.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</BaseLayout>

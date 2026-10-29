@@ -1,0 +1,56 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { site } from '@/data/site';
+
+export interface Props {
+  num?: string;
+  hi: string;
+  title: string;
+  text?: string;
+  class?: string;
+}
+const { num, hi, title, text, class: className = '' } = Astro.props;
+---
+
+<section class:list={['py-20 sm:py-28', className]} aria-labelledby="founders-title">
+  <div class="container-x">
+    <SectionHeading id="founders-title" num={num} label="Founders · संस्थापक" hi={hi} title={title} text={text} />
+
+    <ul class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        site.founders.map((f, i) => {
+          const dark = i === 1;
+          return (
+            <li
+              class:list={[
+                'group relative flex flex-col overflow-hidden rounded-[1.75rem] border-2 border-ink p-7 transition-[translate,box-shadow] duration-500 ease-(--ease-out-expo) hover:-translate-y-1.5 sm:p-8',
+                dark ? 'bg-ink text-white hover:shadow-[8px_8px_0_var(--color-orange)]' : 'bg-white hover:shadow-[8px_8px_0_var(--color-ink)]',
+              ]}
+              data-reveal
+              style={`--d:${i}`}
+            >
+              <span
+                class:list={[
+                  'grid size-24 place-items-center rounded-[1.4rem] border-2 border-ink bg-orange text-[2.1rem] font-extrabold tracking-tight text-ink transition-transform duration-500 ease-(--ease-spring) group-hover:rotate-0',
+                  i % 2 === 0 ? '-rotate-3' : 'rotate-3',
+                  dark ? 'shadow-[4px_4px_0_#fff]' : 'shadow-[4px_4px_0_var(--color-ink)]',
+                ]}
+                aria-hidden="true"
+              >
+                {f.initials}
+              </span>
+              <h3 class="mt-8 text-[clamp(1.4rem,1rem+0.9vw,1.9rem)] leading-tight font-extrabold tracking-tight whitespace-nowrap">{f.name}</h3>
+              <p class:list={['hi mt-1 text-xl font-bold', dark ? 'text-orange' : 'text-orange-deep']} lang="hi">{f.nameHi}</p>
+              <p class:list={['eyebrow mt-6 border-t pt-5', dark ? 'border-line-dark text-muted-dark' : 'border-line text-muted']}>
+                {f.role} · <span lang="hi">सह-संस्थापक</span>
+              </p>
+              <svg class:list={['pointer-events-none absolute -top-8 -right-8 size-32 transition-transform duration-1000 ease-(--ease-out-expo) group-hover:rotate-45', dark ? 'text-white/5' : 'text-ink/5']} viewBox="0 0 40 40" aria-hidden="true">
+                <path d="M20 2c1.6 11.2 6.8 16.4 18 18-11.2 1.6-16.4 6.8-18 18-1.6-11.2-6.8-16.4-18-18 11.2-1.6 16.4-6.8 18-18Z" fill="currentColor" />
+              </svg>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

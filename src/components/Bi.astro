@@ -1,0 +1,11 @@
+---
+// Renders mixed Hindi/English text, tagging Devanagari runs with lang="hi"
+// so screen readers switch voice and letter-spaced labels don't break conjuncts.
+export interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+const parts = text.split(/([ऀ-ॿ](?:[ऀ-ॿ\s\-–]*[ऀ-ॿ])?)/g).filter(Boolean);
+---
+
+{parts.map((p) => (/[ऀ-ॿ]/.test(p) ? <span lang="hi" class="hi-run">{p}</span> : p))}

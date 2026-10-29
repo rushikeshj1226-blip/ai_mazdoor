@@ -1,0 +1,98 @@
+---
+import type { Work } from '@/data/work';
+
+export interface Props {
+  item: Work;
+  index?: number;
+  size?: 'lg' | 'md';
+}
+const { item, index = 0, size = 'md' } = Astro.props;
+const { bg, fg, accent } = item;
+const initials = item.title.split(' ').map((w) => w[0]).join('').slice(0, 2);
+---
+
+<article class="work-card group" data-reveal style={`--d:${index % 3}`} data-tags={item.tags.join(' ')}>
+  <div
+    class:list={['mock relative overflow-hidden rounded-[1.6rem] border-2 border-ink transition-[box-shadow,translate] duration-500 ease-(--ease-out-expo) group-hover:-translate-y-1.5 group-hover:shadow-[8px_8px_0_var(--color-ink)]', size === 'lg' ? 'aspect-[16/11]' : 'aspect-[4/3]']}
+    style={`background:${bg};color:${fg};--accent:${accent}`}
+    aria-hidden="true"
+  >
+    {item.concept && <span class="eyebrow absolute top-4 right-4 z-10 rounded-full border border-current/30 bg-white/15 px-2.5 py-1 text-[0.58rem]! backdrop-blur">Concept</span>}
+
+    {
+      item.mock === 'brand' && (
+        <div class="absolute inset-0 grid place-items-center">
+          <div class="flex flex-col items-center transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-105">
+            <span class="grid size-24 place-items-center rounded-full border-[3px] text-3xl font-extrabold" style={`border-color:${accent};color:${accent}`}>
+              {item.titleHi ? <span class="hi" lang="hi">{item.titleHi.slice(0, 1)}</span> : initials}
+            </span>
+            {item.titleHi && <span class="hi mt-3 text-3xl font-extrabold" lang="hi">{item.titleHi}</span>}
+            <span class="eyebrow mt-1 opacity-70">{item.title}</span>
+          </div>
+          <span class="absolute bottom-5 left-5 flex gap-1.5">
+            <span class="size-5 rounded-full border border-current/40" style={`background:${accent}`} />
+            <span class="size-5 rounded-full border border-current/40" style={`background:${fg}`} />
+            <span class="size-5 rounded-full border border-current/40" style={`background:${bg}`} />
+          </span>
+          <span class="absolute right-5 bottom-5 h-16 w-11 rotate-6 rounded-md border border-current/30 transition-transform duration-500 group-hover:rotate-12" style={`background:${accent}`} />
+        </div>
+      )
+    }
+    {
+      item.mock === 'browser' && (
+        <div class="absolute inset-x-6 top-8 -bottom-4 overflow-hidden rounded-t-2xl border-2 border-ink bg-white text-ink transition-transform duration-700 ease-(--ease-out-expo) group-hover:-translate-y-2">
+          <div class="flex items-center gap-1.5 border-b-2 border-ink px-3 py-2">
+            <span class="size-2 rounded-full" style={`background:${accent}`} /><span class="size-2 rounded-full bg-ink/20" /><span class="size-2 rounded-full bg-ink/20" />
+          </div>
+          <div class="grid grid-cols-[1.3fr_1fr] gap-4 p-5">
+            <div>
+              <span class="block text-[0.6rem] font-bold tracking-widest uppercase" style={`color:${accent}`}>{item.sector.split('·')[0]}</span>
+              <span class="mt-1 block text-lg leading-tight font-extrabold sm:text-xl">{item.title}</span>
+              <span class="mt-2 block h-1.5 w-11/12 rounded bg-ink/10" />
+              <span class="mt-1.5 block h-1.5 w-3/4 rounded bg-ink/10" />
+              <span class="mt-3 inline-block rounded-full px-3 py-1 text-[0.6rem] font-bold text-white" style={`background:${accent}`}>Book now →</span>
+            </div>
+            <div class="rounded-xl" style={`background:${bg}`}>
+              <div class="m-2 h-1/2 rounded-lg" style={`background:${accent};opacity:.25`} />
+            </div>
+          </div>
+        </div>
+      )
+    }
+    {
+      item.mock === 'phone' && (
+        <div class="absolute inset-0 flex items-end justify-center gap-4">
+          <div class="relative h-[86%] w-[42%] max-w-[11rem] translate-y-6 rounded-t-[1.6rem] border-2 border-b-0 border-ink bg-white p-3 text-ink transition-transform duration-700 ease-(--ease-out-expo) group-hover:translate-y-2">
+            <span class="mx-auto block h-1.5 w-10 rounded-full bg-ink/20" />
+            <span class="hi mt-3 block text-sm font-extrabold" lang="hi" style={`color:${accent}`}>{item.titleHi}</span>
+            <div class="mt-2 grid grid-cols-2 gap-1.5">
+              {['🥭', '🍅', '🥬', '🧅'].map((f) => (
+                <span class="grid aspect-square place-items-center rounded-lg text-lg" style={`background:${bg}`}>{f}</span>
+              ))}
+            </div>
+            <span class="mt-2 block rounded-lg py-1.5 text-center text-[0.6rem] font-bold text-white" style={`background:${accent}`}>Pay with UPI</span>
+          </div>
+        </div>
+      )
+    }
+    {
+      item.mock === 'chat' && (
+        <div class="absolute inset-0 flex flex-col justify-center gap-2 p-6 text-[0.8rem] sm:p-8">
+          <span class="max-w-[75%] self-start rounded-2xl rounded-bl-sm bg-white/10 px-3 py-2">मेरा माल कहाँ है? Order #7781</span>
+          <span class="max-w-[80%] self-end rounded-2xl rounded-br-sm px-3 py-2 font-semibold text-ink transition-transform duration-500 group-hover:-translate-x-1" style={`background:${accent}`}>
+            🚚 Dispatched from Indore · ETA kal 2 PM. Live tracking link bhej diya ✅
+          </span>
+          <span class="eyebrow mt-2 self-end text-[0.58rem]! opacity-60">auto-reply · 3 sec</span>
+        </div>
+      )
+    }
+  </div>
+
+  <ul class="mt-5 flex flex-wrap gap-1.5">
+    {item.tags.map((t) => <li class="rounded-full border-2 border-ink px-2.5 py-0.5 text-xs font-bold">{t === 'AI' ? 'AI Automation' : t}</li>)}
+  </ul>
+  <h3 class="mt-3 text-xl font-extrabold tracking-tight">{item.title}{item.titleHi && <span class="hi ml-2 text-base font-bold text-muted" lang="hi">{item.titleHi}</span>}</h3>
+  <p class="mt-0.5 text-sm font-medium text-muted">{item.sector}</p>
+  <p class="mt-3 leading-relaxed text-muted">{item.summary}</p>
+  <p class="mt-3 flex items-center gap-2 text-sm font-bold"><span class="size-2 rounded-full bg-orange" aria-hidden="true"></span>{item.outcome}</p>
+</article>

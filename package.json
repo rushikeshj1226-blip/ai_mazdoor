@@ -1,0 +1,28 @@
+{
+  "name": "ai-mazdoor-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI Mazdoor — Logo Design, Website Design & AI Automation agency website",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "og": "node scripts/generate-images.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/baloo-2": "^5.3.0",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.2",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}

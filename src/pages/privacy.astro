@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import { site } from '@/data/site';
+
+const updated = '22 October 2026';
+---
+
+<BaseLayout
+  title="Privacy Policy | AI Mazdoor"
+  description="How AI Mazdoor collects, uses and protects the information you share through our website, WhatsApp and email."
+>
+  <PageHero label="Legal · नीति" hi="आपका डेटा, आपका।" title="Privacy policy" text={`Last updated: ${updated}`} crumbs={[{ label: 'Privacy policy' }]} />
+
+  <section class="pb-24">
+    <div class="container-x">
+      <div class="prose-am max-w-3xl">
+        <p>This policy explains what information {site.name} (“we”, “us”) collects when you visit {site.url} or contact us, and how we use it. We keep it short and plain on purpose.</p>
+
+        <h2>What we collect</h2>
+        <ul>
+          <li><strong>Details you share with us</strong> — your name, phone/WhatsApp number, email, business name and project details when you fill a form, message us or call us.</li>
+          <li><strong>Basic usage data</strong> — anonymous information such as pages visited and device type, if analytics is enabled, to improve the website.</li>
+        </ul>
+
+        <h2>How we use it</h2>
+        <ul>
+          <li>To reply to your enquiry and send quotes, proposals and project updates.</li>
+          <li>To deliver the services you hire us for and send invoices.</li>
+          <li>To improve our website and services.</li>
+        </ul>
+        <p>We <strong>never sell</strong> your personal data, and we never use it for spam or unrelated marketing.</p>
+
+        <h2>Client project data</h2>
+        <p>When we build websites or automations, your business and customer data stays in your own accounts (for example your Google Workspace, WhatsApp Business account or CRM). We access it only to build and maintain your project, and remove our access whenever you ask.</p>
+
+        <h2>Third-party services</h2>
+        <p>We may use trusted tools such as WhatsApp, Google Workspace, hosting providers and analytics services to run our business. Each of them has its own privacy policy.</p>
+
+        <h2>Your rights</h2>
+        <p>You can ask us to show, correct or delete the personal information we hold about you at any time by writing to <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about this policy? Email <a href={`mailto:${site.email}`}>{site.email}</a> or WhatsApp us on {site.phone}.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
