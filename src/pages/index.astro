@@ -16,7 +16,7 @@ import { site } from '@/data/site';
 const heroWords = ['काम', 'हम', 'करेंगे,'];
 
 // Section numbers follow the visible order, so hiding Work leaves no gap
-const order = ['problem', 'services', 'process', 'ai', ...(site.showWork ? ['work'] : []), 'promise', 'founders', 'faq', 'contact'];
+const order = ['problem', 'services', 'process', 'ai', ...(site.showWork ? ['work'] : []), 'promise', ...(site.showFounders ? ['founders'] : []), 'faq', 'contact'];
 const num = (key: string) => String(order.indexOf(key) + 1).padStart(2, '0');
 
 const problems = [
@@ -366,17 +366,21 @@ const websiteSchema = {
     </div>
   </section>
 
-  <!-- ============ FOUNDERS ============ -->
-  <Founders
-    num={num('founders')}
-    class="bg-orange-tint"
-    hi="काम के पीछे के चेहरे।"
-    title="Meet the founders of AI Mazdoor."
-    text="Our founding team shares one idea: every small business in India deserves big-brand digital muscle."
-  />
+  <!-- ============ FOUNDERS (hidden while site.showFounders is false) ============ -->
+  {
+    site.showFounders && (
+      <Founders
+        num={num('founders')}
+        class="bg-orange-tint"
+        hi="काम के पीछे के चेहरे।"
+        title="Meet the founders of AI Mazdoor."
+        text="Our founding team shares one idea: every small business in India deserves big-brand digital muscle."
+      />
+    )
+  }
 
   <!-- ============ FAQ ============ -->
-  <section class="py-20 sm:py-28" aria-labelledby="faq-title">
+  <section class:list={['py-20 sm:py-28', !site.showFounders && 'bg-orange-tint']} aria-labelledby="faq-title">
     <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
       <div class="lg:sticky lg:top-28 lg:self-start">
         <SectionHeading id="faq-title"

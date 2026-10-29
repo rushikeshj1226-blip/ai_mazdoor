@@ -68,7 +68,7 @@ const options = [
       </p>
     </div>
 
-    <form class="card-hard relative p-6 sm:p-8" data-contact-form data-reveal="right" novalidate>
+    <form class="card-hard relative p-6 sm:p-8" data-contact-form data-whatsapp={site.whatsapp} data-endpoint={site.formEndpoint} data-reveal="right" novalidate>
       <fieldset>
         <legend class="mb-3 text-sm font-bold">I need help with · <span class="hi" lang="hi">मुझे चाहिए</span></legend>
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -157,9 +157,10 @@ const options = [
 </style>
 
 <script>
-  import { site } from '@/data/site';
-
+  // WhatsApp number and endpoint come from data attributes, so the browser only gets what it needs
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const whatsapp = form.dataset.whatsapp ?? '';
+    const endpoint = form.dataset.endpoint ?? '';
     const error = form.querySelector<HTMLElement>('[data-error]')!;
     const success = form.querySelector<HTMLElement>('[data-success]')!;
     const label = form.querySelector<HTMLElement>('[data-label]')!;
@@ -174,10 +175,10 @@ const options = [
       error.classList.add('hidden');
       const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
 
-      if (site.formEndpoint) {
+      if (endpoint) {
         label.textContent = 'Sending…';
         try {
-          const res = await fetch(site.formEndpoint, {
+          const res = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({ ...data, page: location.pathname }),
@@ -200,7 +201,7 @@ const options = [
         data.business && `Business: ${data.business}`,
         data.message && `Details: ${data.message}`,
       ].filter(Boolean).join('\n');
-      window.open(`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
       success.classList.add('show');
     });
   });

@@ -46,7 +46,9 @@ const organization = {
   areaServed: [{ '@type': 'Country', name: 'India' }, 'Worldwide'],
   address: { '@type': 'PostalAddress', addressCountry: site.region },
   knowsLanguage: ['en-IN', 'hi-IN'],
-  founder: site.founders.map((f) => ({ '@type': 'Person', name: f.name, alternateName: f.nameHi, jobTitle: f.role })),
+  ...(site.showFounders
+    ? { founder: site.founders.map((f) => ({ '@type': 'Person', name: f.name, alternateName: f.nameHi, jobTitle: f.role })) }
+    : {}),
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],

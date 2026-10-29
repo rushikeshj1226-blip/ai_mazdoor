@@ -31,6 +31,9 @@ export const site = {
   // Portfolio is hidden until real client work is ready. Set to true to bring back
   // the Work page, its nav/footer links and the Work section on the home page.
   showWork: false,
+  // Founders section is hidden for now. Set to true to show it on the Home and About
+  // pages again (and add the founders back to the About description and Google data).
+  showFounders: false,
   founders: [
     { name: 'Swapnil Bagul', nameHi: 'स्वप्निल बागुल', initials: 'SB', role: 'Co-founder' },
     { name: 'Rushikesh Jadhav', nameHi: 'ऋषिकेश जाधव', initials: 'RJ', role: 'Co-founder' },

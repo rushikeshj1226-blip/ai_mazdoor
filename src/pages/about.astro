@@ -27,11 +27,18 @@ const aboutSchema = {
   url: `${site.url}/about`,
   mainEntity: { '@id': `${site.url}/#organization` },
 };
+
+// Section numbers follow the visible order, so hiding Founders leaves no gap
+const order = [...(site.showFounders ? ['founders'] : []), 'values', 'approach'];
+const num = (key: string) => String(order.indexOf(key) + 1).padStart(2, '0');
+const description = site.showFounders
+  ? 'Indian design & AI automation studio by co-founders Swapnil Bagul, Rushikesh Jadhav and Pratik Kambale — logos, websites and AI bots for small businesses.'
+  : 'AI Mazdoor is an Indian studio combining human design craft with AI — big-brand logos, fast websites and AI automation for small businesses.';
 ---
 
 <BaseLayout
   title="About AI Mazdoor — Design & AI Automation Agency from India"
-  description="Indian design & AI automation studio by co-founders Swapnil Bagul, Rushikesh Jadhav and Pratik Kambale — logos, websites and AI bots for small businesses."
+  description={description}
   schema={[aboutSchema]}
 >
   <PageHero
@@ -65,19 +72,23 @@ const aboutSchema = {
     </div>
   </section>
 
-  <Founders
-    num="01"
-    class="bg-orange-tint"
-    hi="हमारे संस्थापक।"
-    title="The founders behind AI Mazdoor"
-    text="Our founding team shares one idea: every small business in India deserves big-brand digital muscle."
-  />
+  {
+    site.showFounders && (
+      <Founders
+        num={num('founders')}
+        class="bg-orange-tint"
+        hi="हमारे संस्थापक।"
+        title="The founders behind AI Mazdoor"
+        text="Our founding team shares one idea: every small business in India deserves big-brand digital muscle."
+      />
+    )
+  }
 
   <Marquee items={['Logo Design', 'मेहनत', 'Website Design', 'सादगी', 'AI Automation', 'भरोसा', 'Made in India', 'भाषा']} />
 
   <section class="py-20 sm:py-28" aria-labelledby="values-title">
     <div class="container-x">
-      <SectionHeading id="values-title" num="02" label="Values · हमारे उसूल" hi="चार उसूल।" title="The principles behind every project" />
+      <SectionHeading id="values-title" num={num('values')} label="Values · हमारे उसूल" hi="चार उसूल।" title="The principles behind every project" />
       <div class="mt-14 grid gap-4 sm:grid-cols-2">
         {
           values.map((v, i) => (
@@ -96,7 +107,7 @@ const aboutSchema = {
 
   <section class="bg-orange-tint py-20 sm:py-28" aria-labelledby="approach-title">
     <div class="container-x">
-      <SectionHeading id="approach-title" num="03" label="How we work · हमारा तरीका" hi="इंसान + AI = बेहतर काम।" title="Human craft, AI speed — and you in control." />
+      <SectionHeading id="approach-title" num={num('approach')} label="How we work · हमारा तरीका" hi="इंसान + AI = बेहतर काम।" title="Human craft, AI speed — and you in control." />
       <div class="mt-14 grid gap-4 lg:grid-cols-3">
         {
           approach.map((a, i) => (
