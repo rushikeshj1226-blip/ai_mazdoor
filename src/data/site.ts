@@ -2,8 +2,10 @@
 export const site = {
   name: 'AI Mazdoor',
   nameHi: 'एआई मज़दूर',
+  // Other ways people type the brand — used as alternate names in Google's structured data
+  altNames: ['एआई मज़दूर', 'AIMazdoor', 'AI-Mazdoor', 'AI Majdoor', 'AI Mazdur'],
   legalName: 'AI Mazdoor',
-  url: 'https://ai-mazdoor-sigma.vercel.app',
+  url: 'https://www.ai-mazdoor.com',
   tagline: 'Logo Design, Website Design & AI Automation Agency',
   description:
     'AI Mazdoor is an Indian design & AI automation agency. We create memorable logos, fast SEO-ready websites and WhatsApp/AI bots that work 24×7 — in Hindi & English.',
@@ -14,7 +16,7 @@ export const site = {
   phone2: '+91 9137321242',
   phone2Raw: '+919137321242',
   whatsapp: '918793585480',
-  email: 'hello@aimazdoor.com',
+  email: 'hello@ai-mazdoor.com',
   city: 'India',
   region: 'IN',
   hours: 'Mon–Sat · 10:00 AM – 7:00 PM IST',

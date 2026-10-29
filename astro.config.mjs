@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // Change this to your live domain before deploying — canonical URLs, sitemap and OG tags use it.
-const SITE_URL = 'https://ai-mazdoor-sigma.vercel.app';
+const SITE_URL = 'https://www.ai-mazdoor.com';
 
 export default defineConfig({
   site: SITE_URL,

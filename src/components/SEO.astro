@@ -36,7 +36,7 @@ const organization = {
   '@type': 'ProfessionalService',
   '@id': `${site.url}/#organization`,
   name: site.name,
-  alternateName: site.nameHi,
+  alternateName: site.altNames,
   url: site.url,
   logo: `${site.url}/icons/icon-512.png`,
   image: `${site.url}${site.ogImage}`,
@@ -55,7 +55,8 @@ const organization = {
     opens: '10:00',
     closes: '19:00',
   },
-  sameAs: Object.values(site.social),
+  // Add real social profile URLs here once they exist — they help Google link the brand to them
+  // sameAs: [],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Design & AI Automation Services',
