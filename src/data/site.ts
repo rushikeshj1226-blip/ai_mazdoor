@@ -23,11 +23,10 @@ export const site = {
   // Optional: paste a Formspree / Web3Forms endpoint to receive form leads by email.
   // Leave empty and the contact form sends the enquiry to WhatsApp instead.
   formEndpoint: '',
+  // Real profiles only — every link here also goes into Google's structured data (sameAs)
   social: {
-    instagram: 'https://www.instagram.com/aimazdoor',
-    linkedin: 'https://www.linkedin.com/company/aimazdoor',
-    youtube: 'https://www.youtube.com/@aimazdoor',
-    x: 'https://x.com/aimazdoor',
+    instagram: 'https://www.instagram.com/ai.mazdoor/',
+    facebook: 'https://www.facebook.com/people/AI-%E0%A4%AE%E0%A4%9C%E0%A4%A6%E0%A5%82%E0%A4%B0/61595941745346/',
   },
   ogImage: '/og/default.png',
   // Portfolio is hidden until real client work is ready. Set to true to bring back
@@ -57,6 +56,24 @@ const allNav = [
 ] as const;
 
 export const nav = allNav.filter((item) => site.showWork || item.href !== '/work');
+
+// Social profiles shown in the footer and contact section (icon paths use a 24×24 viewBox)
+export const socialLinks = [
+  {
+    label: 'Instagram',
+    handle: '@ai.mazdoor',
+    href: site.social.instagram,
+    bg: 'linear-gradient(45deg, #f9a825, #e1306c 55%, #833ab4)',
+    icon: 'M12 7.4A4.6 4.6 0 1 0 12 16.6 4.6 4.6 0 1 0 12 7.4Zm0 7.6a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm5.9-7.8a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0ZM21 8.3c-.1-1.5-.4-2.8-1.5-3.8S17.2 3.1 15.7 3c-1.5-.1-6-.1-7.5 0-1.5.1-2.8.4-3.8 1.5S3.1 6.8 3 8.3c-.1 1.5-.1 6 0 7.5.1 1.5.4 2.8 1.5 3.8s2.3 1.4 3.8 1.5c1.5.1 6 .1 7.5 0 1.5-.1 2.8-.4 3.8-1.5s1.4-2.3 1.5-3.8c.1-1.5.1-6 0-7.5Zm-2 9.1a3 3 0 0 1-1.7 1.7c-1.2.5-4 .4-5.3.4s-4.1.1-5.3-.4a3 3 0 0 1-1.7-1.7c-.5-1.2-.4-4-.4-5.3s-.1-4.1.4-5.3a3 3 0 0 1 1.7-1.7c1.2-.5 4-.4 5.3-.4s4.1-.1 5.3.4a3 3 0 0 1 1.7 1.7c.5 1.2.4 4 .4 5.3s.1 4.1-.4 5.3Z',
+  },
+  {
+    label: 'Facebook',
+    handle: 'AI Mazdoor',
+    href: site.social.facebook,
+    bg: '#1877f2',
+    icon: 'M14 21v-8h2.7l.4-3.2H14V7.8c0-.9.3-1.5 1.6-1.5h1.7V3.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.2H7.8V13h2.8v8H14Z',
+  },
+] as const;
 
 export const waLink = (text = 'Namaste AI Mazdoor! Mujhe ek project ke baare mein baat karni hai.') =>
   `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
